@@ -58,20 +58,20 @@ const hubNodes: HubNode3D[] = [
     name: "Knowledge & Board Guides",
     category: "Resources",
     description: "Implementation references and technical guides for Arduino, ESP32, and Raspberry Pi.",
-    pos: [-1.6, -1.1, 0.3],
+    pos: [-1.6, -1.0, 0.3],
   },
   {
     id: "guidelines",
     name: "Documentation Guidelines",
-    category: "Resources",
-    description: "Curated standards for project books, video pitches, and presentation requirements.",
-    pos: [0.1, -1.2, -0.1],
+    category: "Standards",
+    description: "Format requirements for project reports, technical books, code repositories, and videos.",
+    pos: [0.2, -1.1, -0.1],
   },
   {
-    id: "auth",
+    id: "access-controls",
     name: "Access Controls",
-    category: "System",
-    description: "Department login and secure change-password interface modules.",
+    category: "Security",
+    description: "Role-based views for students, department leaders, and guest attendees.",
     pos: [1.5, -0.8, 0.2],
   },
 ];
@@ -96,7 +96,6 @@ function ConstellationScene({
 }) {
   const groupRef = useRef<THREE.Group>(null);
 
-  // Connection line geometries
   const lines = useMemo(() => {
     return connectionPairs.map(([fromIdx, toIdx]) => {
       const from = hubNodes[fromIdx].pos;
@@ -112,13 +111,15 @@ function ConstellationScene({
   useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
-    // Gentle spatial orbit rotation
-    groupRef.current.rotation.y = Math.sin(t * 0.25) * 0.25;
-    groupRef.current.rotation.x = Math.cos(t * 0.2) * 0.1;
+    groupRef.current.rotation.y = Math.sin(t * 0.2) * 0.2;
+    groupRef.current.rotation.x = Math.cos(t * 0.15) * 0.08;
   });
 
   return (
     <group ref={groupRef}>
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[3, 5, 4]} intensity={1.5} />
+
       {/* 3D Connecting Lines */}
       {lines.map((line, idx) => {
         const isConnected =
@@ -130,9 +131,10 @@ function ConstellationScene({
             object={new THREE.Line(
               line.geo,
               new THREE.LineBasicMaterial({
-                color: isConnected ? 0x77cfff : 0xf5f7fa,
+                color: isConnected ? 0x0e476b : 0x080b10,
                 transparent: true,
-                opacity: isConnected ? 0.8 : 0.15,
+                opacity: isConnected ? 0.85 : 0.2,
+                linewidth: isConnected ? 2 : 1,
               })
             )}
           />
@@ -156,15 +158,33 @@ function ConstellationScene({
             {isActive && (
               <mesh>
                 <sphereGeometry args={[0.22, 16, 16]} />
-                <meshBasicMaterial color={0x77cfff} transparent opacity={0.25} wireframe />
+                <meshBasicMaterial
+                  color={0x77cfff}
+                  transparent
+                  opacity={0.35}
+                  wireframe
+                />
               </mesh>
             )}
 
-            {/* Core Node */}
+            {/* Core Node on White Ground */}
             <mesh>
               <sphereGeometry args={[isActive ? 0.14 : 0.09, 16, 16]} />
-              <meshBasicMaterial color={isActive ? 0x77cfff : 0xf5f7fa} />
+              <meshStandardMaterial
+                color={isActive ? 0x258ec8 : 0xffffff}
+                roughness={0.2}
+              />
             </mesh>
+
+            {/* Node Wireframe perimeter */}
+            {!isActive && (
+              <lineSegments>
+                <edgesGeometry
+                  args={[new THREE.SphereGeometry(0.09, 12, 12)]}
+                />
+                <lineBasicMaterial color={0x080b10} transparent opacity={0.6} />
+              </lineSegments>
+            )}
           </group>
         );
       })}
@@ -178,7 +198,7 @@ export function HubConstellation3D() {
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
   const isManualSelection = useRef(false);
 
-  // Scroll-linked constellation node cycle
+  // Scroll-linked scrub across nodes
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start 0.85", "end 0.25"],
@@ -186,40 +206,42 @@ export function HubConstellation3D() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (isManualSelection.current || prefersReducedMotion || isSimpleView) return;
-    const nextIdx = Math.min(Math.floor(latest * hubNodes.length), hubNodes.length - 1);
-    if (nextIdx >= 0 && nextIdx !== activeNodeIndex) {
-      setActiveNodeIndex(nextIdx);
+    const targetIdx = Math.min(
+      Math.floor(latest * hubNodes.length),
+      hubNodes.length - 1
+    );
+    if (targetIdx !== activeNodeIndex) {
+      setActiveNodeIndex(targetIdx);
     }
   });
 
-  const handleNodeSelect = (idx: number) => {
+  const handleManualSelect = (idx: number) => {
     isManualSelection.current = true;
     setActiveNodeIndex(idx);
     setTimeout(() => {
       isManualSelection.current = false;
-    }, 4000);
+    }, 1500);
   };
 
-  // If 3D capabilities are gated, seamlessly render 2D version
+  const activeNode = hubNodes[activeNodeIndex];
+
   if (!canRun3D) {
     return <HubConstellation />;
   }
 
-  const activeNode = hubNodes[activeNodeIndex];
-
   return (
     <div
       ref={containerRef}
-      className="w-full rounded-sm border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6"
+      className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen"
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
         <div>
-          <span className="text-xs font-mono text-accent">
-            STATION C · 3D KNOWLEDGE ARCHIVE
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
+            SPECIMEN 03 // EMBEDDED KNOWLEDGE MATRIX
           </span>
-          <h3 className="font-display text-lg font-medium text-ink mt-0.5">
-            Archive Constellation
+          <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
+            Microcontroller &amp; Exhibition Node Web
           </h3>
         </div>
         <span className="text-xs font-mono text-ink-subtle">
@@ -227,54 +249,49 @@ export function HubConstellation3D() {
         </span>
       </div>
 
-      {/* 3D Canvas / 2D fallback view */}
-      <div className="relative h-72 sm:h-80 w-full rounded border border-border/60 bg-bg overflow-hidden flex items-center justify-center">
-        {/* Background Grid */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(245,247,250,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,247,250,0.1) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
+      {/* 3D Canvas */}
+      <div className="relative h-72 sm:h-80 w-full rounded border border-border bg-surface overflow-hidden bg-blueprint-grid">
         {isInView ? (
           <Canvas
             camera={{ position: [0, 0, 4.2], fov: 45 }}
             dpr={[1, 1.5]}
-            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-            className="w-full h-full cursor-pointer"
-            aria-hidden="true"
+            gl={{ antialias: true, alpha: true }}
+            className="w-full h-full cursor-grab active:cursor-grabbing"
           >
             <Suspense fallback={null}>
               <ConstellationScene
                 activeIdx={activeNodeIndex}
-                onSelectNode={(idx) => handleNodeSelect(idx)}
+                onSelectNode={handleManualSelect}
               />
             </Suspense>
           </Canvas>
         ) : (
-          <div className="text-xs font-mono text-ink-subtle">Station paused</div>
+          <div className="w-full h-full flex items-center justify-center text-xs font-mono text-ink-subtle">
+            Canvas suspended (out of view)
+          </div>
         )}
+
+        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-white/90 border border-border px-2 py-0.5 rounded pointer-events-none">
+          Click nodes or scrub scroll
+        </div>
       </div>
 
-      {/* Button-based Node Selector (Accessible Keyboard & Touch Alternative) */}
+      {/* Node selection buttons */}
       <div className="space-y-3">
-        <label className="text-xs font-mono text-ink-subtle block">
-          Select node to highlight in 3D:
+        <label className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
+          Select node to inspect:
         </label>
         <div className="flex flex-wrap gap-2">
           {hubNodes.map((node, idx) => (
             <button
               key={node.id}
               type="button"
-              onClick={() => handleNodeSelect(idx)}
+              onClick={() => handleManualSelect(idx)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
                 idx === activeNodeIndex
-                  ? "border-accent text-accent bg-accent-tint12"
-                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
+                  ? "border-ink bg-ink text-white font-medium"
+                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
               )}
             >
               {node.name}
@@ -283,14 +300,14 @@ export function HubConstellation3D() {
         </div>
       </div>
 
-      {/* Active Node Details Card */}
-      <div className="p-4 rounded border border-border bg-bg/60 space-y-2">
+      {/* Details Card */}
+      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-accent">Category: {activeNode.category}</span>
+          <span className="text-accent-deep font-semibold">Category: {activeNode.category}</span>
           <span className="text-ink-subtle">Node ID: {activeNode.id}</span>
         </div>
         <h4 className="text-sm font-semibold text-ink">{activeNode.name}</h4>
-        <p className="text-xs text-ink-muted leading-relaxed">
+        <p className="text-xs text-ink-muted leading-relaxed font-body">
           {activeNode.description}
         </p>
       </div>

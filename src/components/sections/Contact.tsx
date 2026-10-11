@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { siteConfig } from "@/data/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ActionLink } from "@/components/ui/ActionLink";
-import { Mail, FileText } from "lucide-react";
+import { Mail, FileText, Check, Copy, ArrowUpRight } from "lucide-react";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -39,127 +41,147 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-    </svg>
-  );
-}
-
 export function Contact() {
-  const hasDirectLinks =
-    siteConfig.links.email ||
-    siteConfig.links.github ||
-    siteConfig.links.linkedin ||
-    siteConfig.links.whatsapp;
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(siteConfig.links.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+    }
+  };
 
   return (
-    <section id="contact" className="py-20 sm:py-24 border-t border-border/60" aria-label="Contact">
+    <section
+      id="contact"
+      className="py-20 sm:py-28 border-t border-border bg-white"
+      aria-label="Contact"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeading
-          tagline="Communication"
-          title="Get in touch"
+          tagline="Direct Dispatch"
+          title="Communications &amp; inquiries"
           description="Direct channels for inquiries regarding web systems, interactive applications, and software engineering opportunities."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          {/* Left card: Context */}
-          <div className="p-6 sm:p-8 rounded-sm border border-border bg-surface space-y-4">
-            <h3 className="font-display text-lg font-medium text-ink">
-              Collaboration & Inquiries
-            </h3>
+          {/* Left card: Context & Status */}
+          <div className="p-6 sm:p-8 rounded border border-border-strong bg-surface space-y-6 shadow-specimen">
+            <div>
+              <span className="text-xs font-mono text-accent-deep uppercase tracking-wider font-semibold">
+                DISPATCH // TERMINAL
+              </span>
+              <h3 className="font-display text-xl font-semibold text-ink mt-1">
+                Engineering Collaboration
+              </h3>
+            </div>
+
             <p className="text-sm text-ink-muted leading-relaxed font-body">
-              Open to discussions regarding front-end system development, full-stack .NET and web applications, interactive digital workflows, and engineering collaborations.
+              Available for technical inquiries, front-end system architecture, .NET and web applications, and interactive digital experiences.
             </p>
-            <div className="pt-2 text-xs font-mono text-ink-subtle">
-              Location: Alexandria, Egypt · Borg El Arab Technological University
+
+            <div className="pt-4 border-t border-border space-y-2 text-xs font-mono text-ink-subtle">
+              <div className="flex items-center justify-between">
+                <span>Location:</span>
+                <span className="text-ink font-medium">Alexandria, Egypt (UTC+2)</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Affiliation:</span>
+                <span className="text-ink font-medium">Borg El Arab Technological University</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Response Window:</span>
+                <span className="text-ink font-medium">Within 24–48 hours</span>
+              </div>
             </div>
           </div>
 
-          {/* Right card: Channels */}
-          <div className="p-6 sm:p-8 rounded-sm border border-border bg-surface space-y-6">
-            <h3 className="font-display text-lg font-medium text-ink">
-              Verified Channels
-            </h3>
+          {/* Right card: Verified Channels */}
+          <div className="p-6 sm:p-8 rounded border border-border-strong bg-surface space-y-6 shadow-specimen">
+            <div>
+              <span className="text-xs font-mono text-accent-deep uppercase tracking-wider font-semibold">
+                VERIFIED CHANNELS
+              </span>
+              <h3 className="font-display text-xl font-semibold text-ink mt-1">
+                Direct Contact Points
+              </h3>
+            </div>
 
-            {hasDirectLinks ? (
-              <div className="space-y-3">
-                {siteConfig.links.email && (
-                  <a
-                    href={`mailto:${siteConfig.links.email}`}
-                    className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
-                  >
-                    <Mail size={18} className="text-accent" />
+            <div className="space-y-3">
+              {/* Email with copy button */}
+              <div className="flex items-center gap-2">
+                <a
+                  href={`mailto:${siteConfig.links.email}`}
+                  className="flex-1 flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+                >
+                  <div className="flex items-center gap-3">
+                    <Mail size={18} className="text-accent-deep" />
                     <span>{siteConfig.links.email}</span>
-                  </a>
-                )}
+                  </div>
+                  <ArrowUpRight size={16} className="text-ink-subtle" />
+                </a>
 
-                {siteConfig.links.whatsapp && (
-                  <a
-                    href={siteConfig.links.whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
-                  >
-                    <WhatsAppIcon className="w-[18px] h-[18px] text-accent" />
-                    <span>WhatsApp ({siteConfig.links.whatsapp})</span>
-                  </a>
-                )}
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="p-3.5 rounded border border-border-strong bg-white hover:bg-surface text-ink transition-colors"
+                  title="Copy email to clipboard"
+                  aria-label="Copy email"
+                >
+                  {copied ? (
+                    <Check size={18} className="text-ink" />
+                  ) : (
+                    <Copy size={18} className="text-ink-muted" />
+                  )}
+                </button>
+              </div>
 
-                {siteConfig.links.github && (
-                  <a
-                    href={siteConfig.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
-                  >
-                    <GithubIcon className="w-[18px] h-[18px] text-accent" />
-                    <span>github.com/kameloex</span>
-                  </a>
-                )}
+              {/* GitHub */}
+              <a
+                href={siteConfig.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+              >
+                <div className="flex items-center gap-3">
+                  <GithubIcon className="w-[18px] h-[18px] text-accent-deep" />
+                  <span>github.com/kameloex</span>
+                </div>
+                <ArrowUpRight size={16} className="text-ink-subtle" />
+              </a>
 
-                {siteConfig.links.linkedin && (
-                  <a
-                    href={siteConfig.links.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
-                  >
-                    <LinkedinIcon className="w-[18px] h-[18px] text-accent" />
-                    <span>linkedin.com/in/ahmed-kamel</span>
-                  </a>
-                )}
+              {/* LinkedIn */}
+              <a
+                href={siteConfig.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+              >
+                <div className="flex items-center gap-3">
+                  <LinkedinIcon className="w-[18px] h-[18px] text-accent-deep" />
+                  <span>linkedin.com/in/ahmed-kamel</span>
+                </div>
+                <ArrowUpRight size={16} className="text-ink-subtle" />
+              </a>
 
-                {siteConfig.links.resumePdf && (
+              {/* Optional CV Download if supplied */}
+              {siteConfig.links.resumePdf && (
+                <div className="pt-2">
                   <ActionLink
                     href={siteConfig.links.resumePdf}
                     external
-                    variant="secondary"
+                    variant="primary"
+                    className="w-full justify-center"
                   >
                     <FileText size={16} className="mr-2 inline" />
                     Download CV (PDF)
                   </ActionLink>
-                )}
-              </div>
-            ) : (
-              <div className="p-4 rounded border border-dashed border-border/80 bg-bg/40 text-xs font-mono text-ink-subtle space-y-2">
-                <p className="text-ink">
-                  Direct channels awaiting link confirmation
-                </p>
-                <p className="text-ink-muted">
-                  Email, GitHub, and LinkedIn profiles will become interactive once primary addresses are provided. No placeholder handles are displayed.
-                </p>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

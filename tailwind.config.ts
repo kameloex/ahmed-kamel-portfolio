@@ -10,7 +10,10 @@ const config: Config = {
     extend: {
       colors: {
         bg: "var(--bg)",
-        surface: "var(--surface)",
+        surface: {
+          DEFAULT: "var(--surface)",
+          alt: "var(--surface-alt)",
+        },
         ink: {
           DEFAULT: "var(--ink)",
           muted: "var(--ink-muted)",
@@ -18,19 +21,28 @@ const config: Config = {
         },
         accent: {
           DEFAULT: "var(--accent)",
+          light: "var(--accent-light)",
+          mid: "var(--accent-mid)",
+          deep: "var(--accent-deep)",
           tint12: "var(--accent-tint-12)",
           tint20: "var(--accent-tint-20)",
           tint25: "var(--accent-tint-25)",
+          tint40: "var(--accent-tint-40)",
         },
         deep: "var(--deep)",
-        border: "var(--border)",
+        border: {
+          DEFAULT: "var(--border)",
+          strong: "var(--border-strong)",
+        },
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
       },
       boxShadow: {
-        ring: "0 0 0 1px var(--accent)",
+        ring: "0 0 0 1px var(--border-strong)",
+        "ring-accent": "0 0 0 1px var(--accent-mid)",
+        specimen: "0 12px 36px -8px rgba(8, 11, 16, 0.08), 0 4px 12px -2px rgba(8, 11, 16, 0.04)",
       },
     },
   },

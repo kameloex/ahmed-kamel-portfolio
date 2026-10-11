@@ -15,7 +15,7 @@ const layers: PortalLayer[] = [
   {
     id: "academics",
     name: "Faculties & Departments",
-    description: "Academic degree structures, faculty curriculum, and department overviews.",
+    description: "Academic degree structures, faculty curriculum, and department overviews across 40+ pages.",
   },
   {
     id: "staff",
@@ -55,13 +55,15 @@ export function PortalLayers() {
   const activeLayer = layers[selectedLayerIndex];
 
   return (
-    <div className="w-full rounded-sm border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6">
+    <div className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen">
       {/* Header & meta */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
         <div>
-          <span className="text-xs font-mono text-accent">STATION A · ARCHITECTURAL LAYERS</span>
-          <h3 className="font-display text-lg font-medium text-ink mt-0.5">
-            Information Architecture Stack
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
+            SPECIMEN 01 // ARCHITECTURAL MATRIX
+          </span>
+          <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
+            Information Architecture Stack (40+ Pages)
           </h3>
         </div>
         <div className="text-xs text-ink-subtle font-mono">
@@ -70,17 +72,7 @@ export function PortalLayers() {
       </div>
 
       {/* Visual Layer Stack Representation */}
-      <div className="relative h-64 sm:h-72 w-full rounded border border-border/60 bg-bg overflow-hidden flex items-center justify-center p-4">
-        {/* Coordinate grid */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(245,247,250,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,247,250,0.1) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
+      <div className="relative h-64 sm:h-72 w-full rounded border border-border bg-surface overflow-hidden flex items-center justify-center p-4 bg-blueprint-grid">
         {/* Stack of Isometric/Perspective Panels */}
         <div className="relative w-full max-w-sm h-48 flex flex-col justify-center items-center">
           {layers.map((layer, index) => {
@@ -92,29 +84,29 @@ export function PortalLayers() {
                 key={layer.id}
                 onClick={() => setSelectedLayerIndex(index)}
                 style={{
-                  transform: `translateY(${separationOffset}px) scale(${isActive ? 1.05 : 0.96 - Math.abs(index - selectedLayerIndex) * 0.03})`,
+                  transform: `translateY(${separationOffset}px) scale(${isActive ? 1.04 : 0.96 - Math.abs(index - selectedLayerIndex) * 0.03})`,
                   zIndex: isActive ? 20 : 10 - Math.abs(index - selectedLayerIndex),
                 }}
                 className={cn(
                   "absolute w-4/5 h-10 rounded border transition-all duration-300 cursor-pointer flex items-center justify-between px-4 select-none",
                   isActive
-                    ? "bg-surface border-accent shadow-ring text-ink"
-                    : "bg-surface/75 border-border text-ink-muted hover:border-accent/40"
+                    ? "bg-white border-accent-mid shadow-specimen text-ink ring-1 ring-accent-mid"
+                    : "bg-white/80 border-border text-ink-muted hover:border-ink/40"
                 )}
               >
                 <div className="flex items-center gap-2">
                   <span
                     className={cn(
                       "w-1.5 h-1.5 rounded-full",
-                      isActive ? "bg-accent" : "bg-ink-subtle"
+                      isActive ? "bg-accent-mid" : "bg-ink-subtle"
                     )}
                   />
-                  <span className="text-xs font-mono tracking-tight truncate max-w-[180px]">
+                  <span className="text-xs font-mono tracking-tight truncate max-w-[180px] font-medium">
                     {layer.name}
                   </span>
                 </div>
                 {layer.isSimulated && (
-                  <span className="text-[10px] font-mono text-accent bg-accent-tint12 px-1.5 py-0.5 rounded-sm">
+                  <span className="text-[10px] font-mono text-ink bg-accent-light border border-border px-1.5 py-0.5 rounded">
                     Simulated
                   </span>
                 )}
@@ -126,7 +118,7 @@ export function PortalLayers() {
 
       {/* Button-based Layer Controls */}
       <div className="space-y-3">
-        <label className="text-xs font-mono text-ink-subtle block">
+        <label className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
           Select layer to inspect:
         </label>
         <div className="flex flex-wrap gap-2">
@@ -136,10 +128,10 @@ export function PortalLayers() {
               type="button"
               onClick={() => setSelectedLayerIndex(index)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
                 index === selectedLayerIndex
-                  ? "border-accent text-accent bg-accent-tint12"
-                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
+                  ? "border-ink bg-ink text-white font-medium"
+                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
               )}
             >
               {layer.name}
@@ -149,13 +141,15 @@ export function PortalLayers() {
       </div>
 
       {/* Selected Layer Details Card */}
-      <div className="p-4 rounded border border-border bg-bg/60 space-y-2">
+      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-mono text-accent">Active Layer Details</span>
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase">
+            Active Layer Specification
+          </span>
           {activeLayer.isSimulated && <SimulatedBadge />}
         </div>
         <h4 className="text-sm font-semibold text-ink">{activeLayer.name}</h4>
-        <p className="text-xs text-ink-muted leading-relaxed">
+        <p className="text-xs text-ink-muted leading-relaxed font-body">
           {activeLayer.description}
         </p>
       </div>

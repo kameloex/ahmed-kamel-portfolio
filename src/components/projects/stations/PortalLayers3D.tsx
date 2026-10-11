@@ -21,7 +21,7 @@ const layers: LayerData[] = [
   {
     id: "academics",
     name: "Faculties & Departments",
-    description: "Academic degree structures, faculty curriculum, and department overviews.",
+    description: "Academic degree structures, faculty curriculum, and department overviews across 40+ pages.",
   },
   {
     id: "staff",
@@ -90,7 +90,7 @@ function LayerMesh({
 
   return (
     <group ref={meshRef} position={[0, (index - 3) * 0.08, (index - 3) * 0.28]}>
-      {/* Translucent Panel Plane */}
+      {/* Slab Plane on White Ground */}
       <mesh
         onClick={(e) => {
           e.stopPropagation();
@@ -99,9 +99,7 @@ function LayerMesh({
       >
         <planeGeometry args={[3.2, 0.6]} />
         <meshBasicMaterial
-          color={isActive ? 0x15384b : 0x111720}
-          transparent
-          opacity={isActive ? 0.85 : 0.45}
+          color={isActive ? 0xebf7ff : 0xffffff}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -110,16 +108,20 @@ function LayerMesh({
       <lineSegments>
         <edgesGeometry args={[new THREE.PlaneGeometry(3.2, 0.6)]} />
         <lineBasicMaterial
-          color={isActive ? 0x77cfff : 0xf5f7fa}
+          color={isActive ? 0x258ec8 : 0x080b10}
           transparent
-          opacity={isActive ? 0.95 : 0.2}
+          opacity={isActive ? 0.95 : 0.25}
         />
       </lineSegments>
 
-      {/* Left indicator node */}
+      {/* Indicator Node */}
       <mesh position={[-1.4, 0, 0.02]}>
         <circleGeometry args={[0.04, 16]} />
-        <meshBasicMaterial color={isActive ? 0x77cfff : 0xf5f7fa} transparent opacity={isActive ? 1 : 0.4} />
+        <meshBasicMaterial
+          color={isActive ? 0x258ec8 : 0x080b10}
+          transparent
+          opacity={isActive ? 1 : 0.4}
+        />
       </mesh>
     </group>
   );
@@ -138,8 +140,8 @@ function Scene3D({
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
     // Gentle floating isometric tilt
-    groupRef.current.rotation.x = 0.35 + Math.sin(t * 0.5) * 0.04;
-    groupRef.current.rotation.y = -0.45 + Math.cos(t * 0.4) * 0.05;
+    groupRef.current.rotation.x = 0.35 + Math.sin(t * 0.5) * 0.03;
+    groupRef.current.rotation.y = -0.45 + Math.cos(t * 0.4) * 0.04;
   });
 
   return (
@@ -170,9 +172,12 @@ export function PortalLayers3D() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (isManualSelection.current || prefersReducedMotion || isSimpleView) return;
-    const nextIdx = Math.min(Math.floor(latest * layers.length), layers.length - 1);
-    if (nextIdx >= 0 && nextIdx !== selectedIndex) {
-      setSelectedIndex(nextIdx);
+    const targetIdx = Math.min(
+      Math.floor(latest * layers.length),
+      layers.length - 1
+    );
+    if (targetIdx !== selectedIndex) {
+      setSelectedIndex(targetIdx);
     }
   });
 
@@ -181,29 +186,28 @@ export function PortalLayers3D() {
     setSelectedIndex(index);
     setTimeout(() => {
       isManualSelection.current = false;
-    }, 4000);
+    }, 1500);
   };
 
-  // If 3D capabilities are gated, seamlessly render the 2D version
+  const activeLayer = layers[selectedIndex];
+
   if (!canRun3D) {
     return <PortalLayers />;
   }
 
-  const activeLayer = layers[selectedIndex];
-
   return (
     <div
       ref={containerRef}
-      className="w-full rounded-sm border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6"
+      className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen"
     >
-      {/* Header */}
+      {/* Header & Meta */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
         <div>
-          <span className="text-xs font-mono text-accent">
-            STATION A · 3D ARCHITECTURAL STACK
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
+            SPECIMEN 01 // ARCHITECTURAL MATRIX
           </span>
-          <h3 className="font-display text-lg font-medium text-ink mt-0.5">
-            Information Architecture Layers
+          <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
+            Information Architecture Stack (40+ Pages)
           </h3>
         </div>
         <div className="text-xs text-ink-subtle font-mono">
@@ -211,42 +215,40 @@ export function PortalLayers3D() {
         </div>
       </div>
 
-      {/* 3D Canvas / 2D fallback view */}
-      <div className="relative h-64 sm:h-72 w-full rounded border border-border/60 bg-bg overflow-hidden flex items-center justify-center">
-        {/* Background Grid */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(245,247,250,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(245,247,250,0.1) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-
+      {/* 3D Canvas Viewport */}
+      <div className="relative h-64 sm:h-72 w-full rounded border border-border bg-surface overflow-hidden bg-blueprint-grid">
         {isInView ? (
           <Canvas
-            camera={{ position: [0, 0, 5], fov: 45 }}
+            camera={{ position: [0, 0, 4.2], fov: 45 }}
             dpr={[1, 1.5]}
-            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-            className="w-full h-full cursor-pointer"
-            aria-hidden="true"
+            gl={{ antialias: true, alpha: true }}
+            className="w-full h-full cursor-grab active:cursor-grabbing"
           >
+            <ambientLight intensity={1.5} />
+            <directionalLight position={[4, 5, 4]} intensity={1.5} />
+            <directionalLight position={[-3, -2, -2]} intensity={0.5} />
             <Suspense fallback={null}>
               <Scene3D
                 selectedIndex={selectedIndex}
-                onSelectIndex={(idx) => handleManualSelect(idx)}
+                onSelectIndex={handleManualSelect}
               />
             </Suspense>
           </Canvas>
         ) : (
-          <div className="text-xs font-mono text-ink-subtle">Station paused</div>
+          <div className="w-full h-full flex items-center justify-center text-xs font-mono text-ink-subtle">
+            Canvas suspended (out of view)
+          </div>
         )}
+
+        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-white/90 border border-border px-2 py-0.5 rounded pointer-events-none">
+          Click layer or scrub scroll to inspect
+        </div>
       </div>
 
-      {/* Button-based Layer Controls (Accessible Keyboard & Touch Alternative) */}
+      {/* Button-based Controls */}
       <div className="space-y-3">
-        <label className="text-xs font-mono text-ink-subtle block">
-          Select layer to separate in 3D:
+        <label className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
+          Select layer to inspect:
         </label>
         <div className="flex flex-wrap gap-2">
           {layers.map((layer, index) => (
@@ -255,10 +257,10 @@ export function PortalLayers3D() {
               type="button"
               onClick={() => handleManualSelect(index)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
                 index === selectedIndex
-                  ? "border-accent text-accent bg-accent-tint12"
-                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
+                  ? "border-ink bg-ink text-white font-medium"
+                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
               )}
             >
               {layer.name}
@@ -267,14 +269,16 @@ export function PortalLayers3D() {
         </div>
       </div>
 
-      {/* Active Layer Details */}
-      <div className="p-4 rounded border border-border bg-bg/60 space-y-2">
+      {/* Active Layer Details Card */}
+      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-mono text-accent">Active Layer Details</span>
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase">
+            Active Layer Specification
+          </span>
           {activeLayer.isSimulated && <SimulatedBadge />}
         </div>
         <h4 className="text-sm font-semibold text-ink">{activeLayer.name}</h4>
-        <p className="text-xs text-ink-muted leading-relaxed">
+        <p className="text-xs text-ink-muted leading-relaxed font-body">
           {activeLayer.description}
         </p>
       </div>

@@ -6,17 +6,17 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-bg text-ink-muted text-sm py-12">
+    <footer className="border-t border-border bg-surface text-ink-muted text-sm py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 text-ink font-display font-medium text-base">
-            <span className="w-6 h-6 rounded-sm border border-border flex items-center justify-center font-mono text-[10px] text-accent bg-surface">
+            <span className="w-6 h-6 rounded border border-border-strong flex items-center justify-center font-mono text-[10px] font-semibold text-ink bg-white">
               AK
             </span>
             <span>{siteConfig.name}</span>
           </div>
           <p className="mt-1 text-xs text-ink-subtle">
-            Digital systems, interactive applications, and connected interfaces.
+            Software developer based in Alexandria, Egypt. Web architecture &amp; interactive systems.
           </p>
         </div>
 
@@ -33,13 +33,13 @@ export function Footer() {
               {item.label}
             </Link>
           ))}
-          <a href="#top" className="text-accent hover:underline">
+          <a href="#" className="text-accent-deep font-medium hover:underline">
             Back to top
           </a>
         </nav>
 
-        <div className="text-xs text-ink-subtle">
-          <span>&copy; {currentYear} Ahmed Kamel. All rights reserved.</span>
+        <div className="text-xs text-ink-subtle font-mono">
+          <span>&copy; {currentYear} Ahmed Kamel // Built with Next.js, Three.js &amp; Motion</span>
         </div>
       </div>
     </footer>

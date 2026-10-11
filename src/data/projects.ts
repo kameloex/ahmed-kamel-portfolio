@@ -1,5 +1,5 @@
 // src/data/projects.ts
-// Source of truth for all project copy, strictly following portfolio_blueprint.md and SITE_PLAN.md.
+// Source of truth for all project copy, strictly following portfolio_blueprint.md.
 // No invented data, links, statistics, or metrics.
 
 export type ProjectStatus = "live" | "unverified" | "unpublished";
@@ -19,6 +19,7 @@ export interface ProjectLink {
 export interface Project {
   slug: string;
   title: string;
+  specimenNumber: string;
   tagline: string;
   cardDescription: string;
   longDescription: string;
@@ -39,14 +40,14 @@ export const projects: Project[] = [
   {
     slug: "batu-university-portal",
     title: "BATU University Portal",
+    specimenNumber: "SPECIMEN · 01",
     tagline:
       "A responsive Arabic/English university website with a student services portal, online fee-payment flow, and a Children's University registration system.",
-    // TODO: Confirm university name spelling with user ("Borg El Arab" is used here per instruction).
+    // TODO: Confirm university name spelling with user ("Borg El Arab" vs "Burg Al Arab"; blueprint uses "Borg El Arab").
     cardDescription:
       "A multi-page website for Borg El Arab Technological University covering faculties, staff, student projects, news, admissions, and student services, including a simulated fee-payment flow.",
-    // Note: Statistic "40+ pages" is hidden until user confirms.
     longDescription:
-      "Built for Borg El Arab Technological University, the site brings academic information, admissions, student services, and fee payment into one place. It includes an RTL-first layout and responsive navigation.",
+      "Built for Borg El Arab Technological University, the site brings academic information, admissions, student services, and fee payment into one place. It includes 40+ pages with an RTL-first layout and responsive navigation.",
     features: [
       "Faculty and department pages",
       "Searchable staff directory",
@@ -70,21 +71,20 @@ export const projects: Project[] = [
       "localStorage",
     ],
     implementationHighlights: [
-      "RTL-first UI architecture",
-      "Reusable and shared navigation behavior",
-      "Data-driven rendering patterns",
-      "Robust form validation",
+      "RTL-first UI architecture with seamless Arabic/English switching",
+      "Reusable and shared navigation behavior across 40+ structured pages",
+      "Data-driven client rendering patterns",
+      "Robust client-side form validation",
       "Client-side card validation using Luhn algorithm",
-      "Only masked card data stored locally",
+      "Only masked card data stored locally in client storage",
       "IntersectionObserver counter animation",
     ],
     honestyNote:
       "Simulated demo logic: fee payment is a simulated front-end flow with client-side Luhn validation. It does not process transactions through a live bank or financial payment gateway.",
-    status: "live", // Verified working by Ahmed Kamel
+    status: "unverified", // Per prompt instructions: unverified until user confirms
     demo: {
       label: "Live demo",
       url: "https://kameloex.github.io/BATU/",
-      verifiedOn: "2026-10-11",
     },
     stationType: "portal",
     media: [
@@ -123,6 +123,7 @@ export const projects: Project[] = [
   {
     slug: "payngo-smart-cart-interface",
     title: "PAYNGO Smart Cart Interface",
+    specimenNumber: "SPECIMEN · 02",
     tagline:
       "The touchscreen interface of a smart shopping cart: scan products, review the cart, pay, and walk out without a checkout line.",
     cardDescription:
@@ -201,9 +202,10 @@ export const projects: Project[] = [
   {
     slug: "batu-projects-hub",
     title: "BATU Projects Hub",
+    specimenNumber: "SPECIMEN · 03",
     tagline:
       "A showcase platform for student embedded-systems projects, with project pages, events, knowledge guides, and team registration.",
-    // TODO: Confirm university name spelling with user ("Borg El Arab" is used here per instruction).
+    // TODO: Confirm university name spelling with user ("Borg El Arab" vs "Burg Al Arab"; blueprint uses "Borg El Arab").
     cardDescription:
       "A responsive front-end platform for presenting IT Department embedded-systems projects, exhibitions, event registration, project guidelines, and Arduino/ESP32/Raspberry Pi learning resources.",
     // Note: Department statistics ("82+ projects in 2023", "52 exhibited projects") are hidden until user confirms.
@@ -237,11 +239,10 @@ export const projects: Project[] = [
     ],
     honestyNote:
       "Front-end showcase platform: designed as a front-end platform for project presentation and documentation. Does not connect to a production backend or execute real server-side file uploads.",
-    status: "live", // Verified working by Ahmed Kamel
+    status: "unverified", // Per prompt instructions: unverified until user confirms
     demo: {
       label: "Live demo",
       url: "https://kameloex.github.io/Batu-projects/",
-      verifiedOn: "2026-10-11",
     },
     stationType: "hub",
     media: [

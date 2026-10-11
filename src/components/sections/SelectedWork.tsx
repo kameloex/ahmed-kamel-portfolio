@@ -5,12 +5,12 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function SelectedWork() {
   return (
-    <section id="work" className="py-20 sm:py-24" aria-label="Selected systems">
+    <section id="work" className="py-20 sm:py-28" aria-label="Selected systems">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeading
-          tagline="Selected work"
+          tagline="Systems Dossier"
           title="Featured digital systems"
-          description="Three distinct project stations demonstrating multi-page web architectures, touchscreen transaction state machines, and technical knowledge platforms."
+          description="Three distinct project systems demonstrating multi-page web architectures, touchscreen transaction state machines, and hardware-adjacent platforms."
         />
 
         <div className="space-y-6">

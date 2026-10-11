@@ -17,9 +17,9 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Kamel — The Interactive Systems Atlas",
+  title: "Ahmed Kamel — Systems Blueprint Monograph | Software Developer",
   description:
-    "Portfolio of Ahmed Kamel: Software developer focused on web experiences, interactive applications, and connected systems.",
+    "Portfolio of Ahmed Kamel: Software developer based in Alexandria, Egypt. Focused on web architecture, interactive applications, and connected systems.",
   robots: {
     index: true,
     follow: true,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#080B10",
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
 };
@@ -40,13 +40,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolageGrotesque.variable} ${instrumentSans.variable} font-body selection:bg-accent/20`}
+      className={`${bricolageGrotesque.variable} ${instrumentSans.variable} font-body selection:bg-accent/25`}
     >
       <body className="bg-bg text-ink min-h-screen flex flex-col antialiased">
         {/* Accessible Skip Link */}
         <a
           href="#work"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-bg focus:font-mono focus:text-xs focus:rounded-sm focus:outline-none"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-ink focus:text-white focus:font-mono focus:text-xs focus:rounded focus:outline-none ring-2 ring-accent-deep"
         >
           Skip to work
         </a>

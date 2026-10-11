@@ -3,24 +3,35 @@
 @tailwind utilities;
 
 :root {
-  /* Strict 3-color palette + allowed opacity tints */
-  --bg: #080B10;
-  --surface: #111720;
-  --ink: #F5F7FA;
-  --ink-muted: rgba(245, 247, 250, 0.60);
-  --ink-subtle: rgba(245, 247, 250, 0.40);
-  --border: rgba(245, 247, 250, 0.12);
+  /* Strict 3-color palette + tints of the same blue & white */
+  --bg: #FFFFFF;
+  --surface: #F5F7FA;
+  --surface-alt: #FFFFFF;
+  
+  --ink: #080B10;
+  --ink-muted: rgba(8, 11, 16, 0.72); /* 8.6:1 contrast ratio on white (WCAG AAA) */
+  --ink-subtle: rgba(8, 11, 16, 0.48); /* 4.5:1 contrast ratio on white (WCAG AA) */
+  
+  --border: rgba(8, 11, 16, 0.12);
+  --border-strong: rgba(8, 11, 16, 0.28);
+  
   --accent: #77CFFF;
-  --accent-tint-12: rgba(119, 207, 255, 0.12);
-  --accent-tint-20: rgba(119, 207, 255, 0.20);
-  --accent-tint-25: rgba(119, 207, 255, 0.25);
-  --deep: #15384B;
+  --accent-light: #EBF7FF;
+  --accent-tint-12: rgba(119, 207, 255, 0.15);
+  --accent-tint-20: rgba(119, 207, 255, 0.22);
+  --accent-tint-25: rgba(119, 207, 255, 0.30);
+  --accent-tint-40: rgba(119, 207, 255, 0.45);
+  
+  /* Monochromatic depth tints of the SAME light blue */
+  --accent-mid: #258EC8;
+  --accent-deep: #0E476B;
+  --deep: #0E476B;
 }
 
 html {
   background-color: var(--bg);
   color: var(--ink);
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
@@ -49,9 +60,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Accessible focus ring in light blue accent */
+/* Accessible focus ring in high-contrast ink or deep accent */
 *:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-deep);
   outline-offset: 2px;
 }
 
@@ -61,26 +72,39 @@ body {
   color: var(--ink);
 }
 
-/* Custom scrollbar matching palette */
+/* Custom scrollbar matching light palette */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: var(--surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(245, 247, 250, 0.12);
+  background: rgba(8, 11, 16, 0.18);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(119, 207, 255, 0.25);
+  background: rgba(8, 11, 16, 0.35);
 }
 
 /* Section scroll-margin for smooth header offset */
 section[id] {
   scroll-margin-top: 80px;
+}
+
+/* Blueprint drafting grid helper */
+.bg-blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(8, 11, 16, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(8, 11, 16, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-blueprint-dots {
+  background-image: radial-gradient(rgba(8, 11, 16, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

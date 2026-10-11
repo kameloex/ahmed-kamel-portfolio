@@ -8,7 +8,7 @@ import { ActionLink } from "@/components/ui/ActionLink";
 import { SimulatedBadge } from "@/components/ui/SimulatedBadge";
 import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 interface ProjectCaseStudyProps {
   project: Project;
@@ -21,24 +21,25 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
   return (
     <motion.article
       layoutId={prefersReducedMotion ? undefined : `station-frame-${project.slug}`}
-      className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-16"
+      className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20 space-y-16"
     >
       {/* Navigation breadcrumb */}
       <div>
         <Link
           href="/#work"
-          className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-accent transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-ink transition-colors font-mono"
         >
           <ArrowLeft size={16} />
-          <span>Back to selected work</span>
+          <span>Back to Systems Dossier</span>
         </Link>
       </div>
 
       {/* Hero header */}
       <header className="space-y-6 border-b border-border pb-10">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs font-mono text-accent">
-            CASE STUDY · {project.stationType.toUpperCase()}
+          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
+            {project.specimenNumber || `SPECIMEN // ${project.stationType.toUpperCase()}`}
           </span>
           {project.stationType === "cart" && (
             <SimulatedBadge label="Simulated demo logic" />
@@ -47,7 +48,7 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
 
         <motion.h1
           layoutId={prefersReducedMotion ? undefined : `station-title-${project.slug}`}
-          className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-ink tracking-tight"
+          className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold text-ink tracking-tight"
         >
           {project.title}
         </motion.h1>
@@ -65,14 +66,14 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           )}
 
           {project.status === "unverified" && (
-            <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border/40 rounded-sm">
+            <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border rounded bg-surface">
               Live demo link unverified pending test
             </span>
           )}
 
           {project.status === "unpublished" && (
-            <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border/40 rounded-sm">
-              Project unpublished / local demo
+            <span className="text-xs font-mono font-medium text-ink px-3 py-2 border border-border-strong rounded bg-surface">
+              Demo Coming Soon
             </span>
           )}
 
@@ -84,28 +85,32 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
 
       {/* Meta Specs Grid */}
       <section
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded-sm border border-border bg-surface"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded border border-border-strong bg-surface shadow-specimen"
         aria-label="Project specifications"
       >
         <div className="space-y-1">
-          <span className="text-xs font-mono text-ink-subtle block">Status</span>
-          <span className="text-sm font-medium text-ink capitalize">
-            {project.status}
+          <span className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
+            Verification Status
+          </span>
+          <span className="text-sm font-semibold text-ink capitalize font-mono">
+            {project.status === "unpublished" ? "Unpublished (Local)" : project.status}
           </span>
         </div>
 
         <div className="space-y-1">
-          <span className="text-xs font-mono text-ink-subtle block">
-            Role & Contribution
+          <span className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
+            System Classification
           </span>
           <span className="text-sm font-medium text-ink">
-            {project.role || "Lead Front-end & Systems Architecture"}
+            {project.stationType === "portal" && "Multi-Page Web Portal (40+ Pages)"}
+            {project.stationType === "cart" && "Touchscreen State-Machine Interface"}
+            {project.stationType === "hub" && "Knowledge & Exhibition Showcase Platform"}
           </span>
         </div>
 
         <div className="space-y-1 sm:col-span-2 lg:col-span-1">
-          <span className="text-xs font-mono text-ink-subtle block">
-            Core Technologies
+          <span className="text-xs font-mono text-ink-subtle block uppercase tracking-wider">
+            Key Technologies
           </span>
           <span className="text-sm font-medium text-ink">
             {project.technologies.slice(0, 4).join(", ")}
@@ -114,13 +119,19 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
       </section>
 
       {/* Media / Screenshot section (strictly neutral placeholder when media is empty) */}
-      <section className="space-y-4">
-        <h2 className="font-display text-xl font-semibold text-ink">
-          Interface Media
-        </h2>
+      <section className="space-y-6">
+        <div className="flex items-center justify-between border-b border-border pb-3">
+          <h2 className="font-display text-xl font-semibold text-ink">
+            Verified Interface Captures
+          </h2>
+          <span className="text-xs font-mono text-ink-subtle">
+            {project.media.length} Screen Evidence Records
+          </span>
+        </div>
+
         {project.media.length === 0 ? (
-          <div className="w-full rounded border border-dashed border-border bg-surface/30 p-8 sm:p-12 text-center space-y-3">
-            <div className="w-10 h-10 mx-auto rounded-full border border-border flex items-center justify-center text-accent font-mono text-xs">
+          <div className="w-full rounded border border-dashed border-border bg-surface p-8 sm:p-12 text-center space-y-3">
+            <div className="w-10 h-10 mx-auto rounded-full border border-border-strong flex items-center justify-center text-ink font-mono text-xs font-semibold">
               AK
             </div>
             <p className="text-sm font-mono text-ink">
@@ -135,9 +146,9 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
             {project.media.map((item, idx) => (
               <figure
                 key={idx}
-                className="group rounded border border-border bg-surface overflow-hidden p-2 space-y-2"
+                className="group rounded border border-border-strong bg-surface overflow-hidden p-2.5 space-y-2.5 shadow-sm"
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm bg-bg">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded bg-white border border-border">
                   <Image
                     src={item.src}
                     alt={item.alt}
@@ -146,7 +157,7 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
                     className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
                   />
                 </div>
-                <figcaption className="text-xs font-mono text-ink-subtle px-1 py-1 leading-normal">
+                <figcaption className="text-xs font-mono text-ink-muted px-1 leading-relaxed">
                   {item.alt}
                 </figcaption>
               </figure>
@@ -157,8 +168,10 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
 
       {/* Overview & Context */}
       <section className="space-y-4">
-        <h2 className="font-display text-xl font-semibold text-ink">Overview</h2>
-        <p className="text-base text-ink-muted leading-relaxed">
+        <h2 className="font-display text-xl font-semibold text-ink">
+          Architectural Overview
+        </h2>
+        <p className="text-base text-ink-muted leading-relaxed font-body">
           {project.longDescription}
         </p>
       </section>
@@ -166,15 +179,15 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
       {/* Key Features */}
       <section className="space-y-4">
         <h2 className="font-display text-xl font-semibold text-ink">
-          Key Features & Modules
+          Key Features &amp; Modules
         </h2>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {project.features.map((feature, idx) => (
             <li
               key={idx}
-              className="p-3 rounded border border-border/60 bg-surface/40 flex items-start gap-2.5 text-sm text-ink-muted"
+              className="p-3.5 rounded border border-border bg-white flex items-start gap-3 text-sm text-ink-muted shadow-sm"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-mid mt-2 shrink-0" />
               <span>{feature}</span>
             </li>
           ))}
@@ -186,30 +199,28 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
         <h2 className="font-display text-xl font-semibold text-ink">
           Implementation Highlights
         </h2>
-        <ul className="space-y-2.5">
+        <ul className="space-y-3">
           {project.implementationHighlights.map((highlight, idx) => (
             <li
               key={idx}
-              className="p-3.5 rounded border border-border bg-surface flex items-start gap-3 text-sm text-ink"
+              className="p-4 rounded border border-border-strong bg-white flex items-start gap-3 text-sm text-ink shadow-sm"
             >
-              <span className="font-mono text-xs text-accent mt-0.5 shrink-0">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
-              <span className="text-ink-muted">{highlight}</span>
+              <span className="w-1.5 h-1.5 rounded-sm bg-ink mt-2 shrink-0" />
+              <span className="text-ink-muted leading-relaxed">{highlight}</span>
             </li>
           ))}
         </ul>
       </section>
 
       {/* Honesty & Verification Note */}
-      <section className="p-6 rounded border border-border bg-surface space-y-2">
+      <section className="p-6 rounded border border-border-strong bg-surface space-y-2 shadow-specimen">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-accent" />
+          <span className="w-2 h-2 rounded-full bg-accent-mid" />
           <h3 className="text-sm font-semibold text-ink font-mono uppercase tracking-wide">
-            Integrity Note
+            Engineering &amp; Simulation Disclosure
           </h3>
         </div>
-        <p className="text-sm text-ink-muted leading-relaxed">
+        <p className="text-sm text-ink-muted leading-relaxed font-body">
           {project.honestyNote}
         </p>
       </section>
@@ -222,19 +233,20 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
         >
           <Link
             href="/#work"
-            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors"
+            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors font-mono"
           >
-            All selected systems
+            ← All Systems
           </Link>
           <Link
             href={`/work/${nextProject.slug}`}
             className="group flex flex-col items-end text-right"
           >
             <span className="text-xs font-mono text-ink-subtle">
-              Next project
+              Next Specimen
             </span>
-            <span className="text-sm font-medium text-ink group-hover:text-accent transition-colors">
+            <span className="text-sm font-semibold text-ink group-hover:text-accent-deep transition-colors inline-flex items-center gap-1">
               {nextProject.title}
+              <ArrowUpRight size={14} />
             </span>
           </Link>
         </nav>

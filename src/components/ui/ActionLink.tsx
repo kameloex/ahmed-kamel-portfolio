@@ -26,15 +26,15 @@ export function ActionLink({
   }
 
   const baseStyles =
-    "inline-flex items-center justify-center text-sm font-medium transition-all duration-150 rounded-sm active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
+    "inline-flex items-center justify-center text-sm font-medium transition-all duration-150 rounded active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-accent-deep";
 
   const variants = {
     primary:
-      "bg-ink text-bg hover:bg-white active:bg-ink-muted px-4 py-2.5 shadow-sm font-semibold",
+      "bg-ink text-white hover:bg-ink/90 active:bg-ink px-4 py-2.5 shadow-sm font-medium",
     secondary:
-      "border border-border text-ink hover:border-accent hover:text-accent bg-surface/60 active:bg-surface px-4 py-2.5",
+      "border border-border-strong text-ink hover:border-ink hover:bg-surface active:bg-white px-4 py-2.5 bg-white font-medium",
     subtle:
-      "text-ink-muted hover:text-ink active:text-accent underline-offset-4 hover:underline py-1 px-1",
+      "text-ink-muted hover:text-ink active:text-ink underline-offset-4 hover:underline py-1 px-1",
   };
 
   const combinedClasses = cn(baseStyles, variants[variant], className);

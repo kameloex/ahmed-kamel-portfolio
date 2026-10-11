@@ -17,7 +17,8 @@ export function SectionHeading({
   return (
     <div className={cn("space-y-3 max-w-2xl", className)}>
       {tagline && (
-        <p className="text-sm font-medium text-accent tracking-normal">
+        <p className="text-xs font-mono font-semibold tracking-wider text-accent-deep uppercase inline-flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
           {tagline}
         </p>
       )}
