@@ -1,12 +1,6 @@
 // src/data/site.ts
 // Global site configuration and verified metadata.
-// Strict rule: no invented contact links or phone numbers.
-
-export interface SocialLink {
-  label: string;
-  url?: string; // Optional until supplied by Ahmed
-  username?: string;
-}
+// Strictly using confirmed contact details provided by Ahmed Kamel.
 
 export interface SiteConfig {
   name: string;
@@ -14,10 +8,12 @@ export interface SiteConfig {
   headline: string;
   subheadline: string;
   links: {
-    email?: string;
-    github?: string;
-    linkedin?: string;
-    resumePdf?: string; // Only if approved and supplied
+    email: string;
+    github: string;
+    linkedin: string;
+    whatsapp: string;
+    whatsappUrl: string;
+    resumePdf?: string;
   };
   navigation: {
     label: string;
@@ -32,10 +28,11 @@ export const siteConfig: SiteConfig = {
   subheadline:
     "Software developer focused on web experiences, interactive applications, and connected systems.",
   links: {
-    // Left undefined until Ahmed provides verified links
-    email: undefined,
-    github: undefined,
-    linkedin: undefined,
+    email: "ahmeeeeedd699@gmail.com",
+    github: "https://github.com/kameloex",
+    linkedin: "https://www.linkedin.com/in/ahmed-kamel-81062b2a7/",
+    whatsapp: "+201225197764",
+    whatsappUrl: "https://wa.me/201225197764",
     resumePdf: undefined,
   },
   navigation: [

@@ -80,10 +80,11 @@ export const projects: Project[] = [
     ],
     honestyNote:
       "Simulated demo logic: fee payment is a simulated front-end flow with client-side Luhn validation. It does not process transactions through a live bank or financial payment gateway.",
-    status: "unverified", // Will render demo CTA only when verified as "live"
+    status: "live", // Verified working by Ahmed Kamel
     demo: {
       label: "Live demo",
       url: "https://kameloex.github.io/BATU/",
+      verifiedOn: "2026-10-11",
     },
     stationType: "portal",
     media: [
@@ -236,10 +237,11 @@ export const projects: Project[] = [
     ],
     honestyNote:
       "Front-end showcase platform: designed as a front-end platform for project presentation and documentation. Does not connect to a production backend or execute real server-side file uploads.",
-    status: "unverified", // Will render demo CTA only when verified as "live"
+    status: "live", // Verified working by Ahmed Kamel
     demo: {
       label: "Live demo",
       url: "https://kameloex.github.io/Batu-projects/",
+      verifiedOn: "2026-10-11",
     },
     stationType: "hub",
     media: [

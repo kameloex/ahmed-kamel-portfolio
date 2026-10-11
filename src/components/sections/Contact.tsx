@@ -39,11 +39,28 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  );
+}
+
 export function Contact() {
   const hasDirectLinks =
     siteConfig.links.email ||
     siteConfig.links.github ||
-    siteConfig.links.linkedin;
+    siteConfig.links.linkedin ||
+    siteConfig.links.whatsapp;
 
   return (
     <section id="contact" className="py-20 sm:py-24 border-t border-border/60" aria-label="Contact">
@@ -61,10 +78,10 @@ export function Contact() {
               Collaboration & Inquiries
             </h3>
             <p className="text-sm text-ink-muted leading-relaxed font-body">
-              Open to discussions regarding front-end system development, interactive digital workflows, and engineering collaborations.
+              Open to discussions regarding front-end system development, full-stack .NET and web applications, interactive digital workflows, and engineering collaborations.
             </p>
             <div className="pt-2 text-xs font-mono text-ink-subtle">
-              Location: Borg El Arab, Alexandria, Egypt
+              Location: Alexandria, Egypt · Borg El Arab Technological University
             </div>
           </div>
 
@@ -86,6 +103,18 @@ export function Contact() {
                   </a>
                 )}
 
+                {siteConfig.links.whatsapp && (
+                  <a
+                    href={siteConfig.links.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
+                  >
+                    <WhatsAppIcon className="w-[18px] h-[18px] text-accent" />
+                    <span>WhatsApp ({siteConfig.links.whatsapp})</span>
+                  </a>
+                )}
+
                 {siteConfig.links.github && (
                   <a
                     href={siteConfig.links.github}
@@ -94,7 +123,7 @@ export function Contact() {
                     className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
                   >
                     <GithubIcon className="w-[18px] h-[18px] text-accent" />
-                    <span>GitHub Profile</span>
+                    <span>github.com/kameloex</span>
                   </a>
                 )}
 
@@ -106,7 +135,7 @@ export function Contact() {
                     className="flex items-center gap-3 p-3 rounded border border-border hover:border-accent text-sm text-ink transition-colors"
                   >
                     <LinkedinIcon className="w-[18px] h-[18px] text-accent" />
-                    <span>LinkedIn Profile</span>
+                    <span>linkedin.com/in/ahmed-kamel</span>
                   </a>
                 )}
 
