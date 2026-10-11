@@ -39,7 +39,7 @@ The layout abandons standard card grids in favor of a cohesive narrative that sa
    A minimal architectural timeline highlighting verified milestones: DEPI (.NET/Full-stack), Children's University Instructor, Alexandria Petroleum Company IT Intern, Freelance Web Engineer, and BATU Information Technology.
 
 6. **The Direct Dispatch Terminal (Contact & Footer):**
-   High-contrast, friction-free contact terminal featuring one-click copy email (`ahmeeeeedd699@gmail.com`), GitHub (`kameloex`), LinkedIn (`ahmed-kamel-81062b2a7`), and Alexandria local time. (No phone number).
+   High-contrast, friction-free contact terminal featuring one-click copy email (`ahmeeeeed699@gmail.com`), GitHub (`kameloex`), LinkedIn (`ahmed-kamel-81062b2a7`), and Alexandria local time. (No phone number).
 
 ---
 

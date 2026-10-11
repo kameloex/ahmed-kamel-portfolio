@@ -29,7 +29,7 @@ export const siteConfig: SiteConfig = {
   subheadline:
     "Software developer focused on web experiences, interactive applications, and connected systems.",
   links: {
-    email: "ahmeeeeedd699@gmail.com",
+    email: "ahmeeeeed699@gmail.com",
     github: "https://github.com/kameloex",
     linkedin: "https://www.linkedin.com/in/ahmed-kamel-81062b2a7/",
     resumePdf: undefined, // Pending public CV placement in /public/resume.pdf
