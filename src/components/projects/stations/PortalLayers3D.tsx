@@ -3,6 +3,7 @@
 import React, { useRef, useState, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useScroll, useMotionValueEvent } from "motion/react";
 import { PortalLayers } from "./PortalLayers";
 import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import { useInViewCanvas } from "@/components/atlas/useInViewCanvas";
@@ -112,7 +113,6 @@ function LayerMesh({
           color={isActive ? 0x77cfff : 0xf5f7fa}
           transparent
           opacity={isActive ? 0.95 : 0.2}
-          linewidth={isActive ? 2 : 1}
         />
       </lineSegments>
 
@@ -157,9 +157,32 @@ function Scene3D({
 }
 
 export function PortalLayers3D() {
-  const { canRun3D } = useAtlasCapabilities();
+  const { canRun3D, prefersReducedMotion, isSimpleView } = useAtlasCapabilities();
   const { containerRef, isInView } = useInViewCanvas(0.15);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const isManualSelection = useRef(false);
+
+  // Scroll-linked layer separation scrub
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.85", "end 0.25"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isManualSelection.current || prefersReducedMotion || isSimpleView) return;
+    const nextIdx = Math.min(Math.floor(latest * layers.length), layers.length - 1);
+    if (nextIdx >= 0 && nextIdx !== selectedIndex) {
+      setSelectedIndex(nextIdx);
+    }
+  });
+
+  const handleManualSelect = (index: number) => {
+    isManualSelection.current = true;
+    setSelectedIndex(index);
+    setTimeout(() => {
+      isManualSelection.current = false;
+    }, 4000);
+  };
 
   // If 3D capabilities are gated, seamlessly render the 2D version
   if (!canRun3D) {
@@ -211,7 +234,7 @@ export function PortalLayers3D() {
             <Suspense fallback={null}>
               <Scene3D
                 selectedIndex={selectedIndex}
-                onSelectIndex={(idx) => setSelectedIndex(idx)}
+                onSelectIndex={(idx) => handleManualSelect(idx)}
               />
             </Suspense>
           </Canvas>
@@ -230,7 +253,7 @@ export function PortalLayers3D() {
             <button
               key={layer.id}
               type="button"
-              onClick={() => setSelectedIndex(index)}
+              onClick={() => handleManualSelect(index)}
               className={cn(
                 "text-xs px-2.5 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
                 index === selectedIndex

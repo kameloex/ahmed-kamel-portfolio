@@ -1,8 +1,12 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import type { Project } from "@/data/projects";
 import { ActionLink } from "@/components/ui/ActionLink";
 import { SimulatedBadge } from "@/components/ui/SimulatedBadge";
+import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import { ArrowLeft } from "lucide-react";
 
 interface ProjectCaseStudyProps {
@@ -11,8 +15,13 @@ interface ProjectCaseStudyProps {
 }
 
 export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps) {
+  const { prefersReducedMotion } = useAtlasCapabilities();
+
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-16">
+    <motion.article
+      layoutId={prefersReducedMotion ? undefined : `station-frame-${project.slug}`}
+      className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-16"
+    >
       {/* Navigation breadcrumb */}
       <div>
         <Link
@@ -35,9 +44,12 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           )}
         </div>
 
-        <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-ink tracking-tight">
+        <motion.h1
+          layoutId={prefersReducedMotion ? undefined : `station-title-${project.slug}`}
+          className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-ink tracking-tight"
+        >
           {project.title}
-        </h1>
+        </motion.h1>
 
         <p className="text-lg sm:text-xl text-ink-muted leading-relaxed font-body">
           {project.tagline}
@@ -215,6 +227,6 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           </Link>
         </nav>
       )}
-    </article>
+    </motion.article>
   );
 }

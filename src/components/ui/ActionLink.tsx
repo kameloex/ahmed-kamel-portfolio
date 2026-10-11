@@ -26,7 +26,7 @@ export function ActionLink({
   }
 
   const baseStyles =
-    "inline-flex items-center justify-center text-sm font-medium transition-colors duration-150 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
+    "inline-flex items-center justify-center text-sm font-medium transition-all duration-150 rounded-sm active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
 
   const variants = {
     primary:

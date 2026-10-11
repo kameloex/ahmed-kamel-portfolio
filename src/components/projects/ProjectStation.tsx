@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import { motion } from "motion/react";
 import type { Project } from "@/data/projects";
 import { ActionLink } from "@/components/ui/ActionLink";
 import { PortalLayers3D } from "./stations/PortalLayers3D";
 import { CartFlow3D } from "./stations/CartFlow3D";
 import { HubConstellation3D } from "./stations/HubConstellation3D";
+import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import { cn } from "@/lib/utils";
 
 interface ProjectStationProps {
@@ -14,6 +16,8 @@ interface ProjectStationProps {
 }
 
 export function ProjectStation({ project, reversed = false }: ProjectStationProps) {
+  const { prefersReducedMotion } = useAtlasCapabilities();
+
   const renderStationVisual = () => {
     switch (project.stationType) {
       case "portal":
@@ -30,7 +34,8 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
   const isFullWidthVisual = project.stationType === "hub";
 
   return (
-    <article
+    <motion.article
+      layoutId={prefersReducedMotion ? undefined : `station-frame-${project.slug}`}
       id={`station-${project.slug}`}
       className="py-12 sm:py-16 border-b border-border/80 last:border-b-0"
     >
@@ -55,9 +60,12 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
             <span className="text-xs font-mono text-accent">
               Station · {project.stationType.toUpperCase()}
             </span>
-            <h3 className="font-display text-2xl sm:text-3xl font-semibold text-ink tracking-tight">
+            <motion.h3
+              layoutId={prefersReducedMotion ? undefined : `station-title-${project.slug}`}
+              className="font-display text-2xl sm:text-3xl font-semibold text-ink tracking-tight"
+            >
               {project.title}
-            </h3>
+            </motion.h3>
             <p className="text-base text-ink-muted leading-relaxed font-body">
               {project.tagline}
             </p>
@@ -138,6 +146,6 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
           {renderStationVisual()}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

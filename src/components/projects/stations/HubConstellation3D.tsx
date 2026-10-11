@@ -3,6 +3,7 @@
 import React, { useRef, useState, useMemo, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useScroll, useMotionValueEvent } from "motion/react";
 import { HubConstellation } from "./HubConstellation";
 import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import { useInViewCanvas } from "@/components/atlas/useInViewCanvas";
@@ -172,9 +173,32 @@ function ConstellationScene({
 }
 
 export function HubConstellation3D() {
-  const { canRun3D } = useAtlasCapabilities();
+  const { canRun3D, prefersReducedMotion, isSimpleView } = useAtlasCapabilities();
   const { containerRef, isInView } = useInViewCanvas(0.15);
   const [activeNodeIndex, setActiveNodeIndex] = useState(0);
+  const isManualSelection = useRef(false);
+
+  // Scroll-linked constellation node cycle
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.85", "end 0.25"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isManualSelection.current || prefersReducedMotion || isSimpleView) return;
+    const nextIdx = Math.min(Math.floor(latest * hubNodes.length), hubNodes.length - 1);
+    if (nextIdx >= 0 && nextIdx !== activeNodeIndex) {
+      setActiveNodeIndex(nextIdx);
+    }
+  });
+
+  const handleNodeSelect = (idx: number) => {
+    isManualSelection.current = true;
+    setActiveNodeIndex(idx);
+    setTimeout(() => {
+      isManualSelection.current = false;
+    }, 4000);
+  };
 
   // If 3D capabilities are gated, seamlessly render 2D version
   if (!canRun3D) {
@@ -226,7 +250,7 @@ export function HubConstellation3D() {
             <Suspense fallback={null}>
               <ConstellationScene
                 activeIdx={activeNodeIndex}
-                onSelectNode={(idx) => setActiveNodeIndex(idx)}
+                onSelectNode={(idx) => handleNodeSelect(idx)}
               />
             </Suspense>
           </Canvas>
@@ -245,7 +269,7 @@ export function HubConstellation3D() {
             <button
               key={node.id}
               type="button"
-              onClick={() => setActiveNodeIndex(idx)}
+              onClick={() => handleNodeSelect(idx)}
               className={cn(
                 "text-xs px-2.5 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
                 idx === activeNodeIndex

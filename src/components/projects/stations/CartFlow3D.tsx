@@ -3,6 +3,7 @@
 import React, { useRef, useState, Suspense } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useScroll, useMotionValueEvent } from "motion/react";
 import { CartFlow } from "./CartFlow";
 import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 import { useInViewCanvas } from "@/components/atlas/useInViewCanvas";
@@ -167,9 +168,48 @@ function CartFlowScene({ stepIndex }: { stepIndex: number }) {
 }
 
 export function CartFlow3D() {
-  const { canRun3D } = useAtlasCapabilities();
+  const { canRun3D, prefersReducedMotion, isSimpleView } = useAtlasCapabilities();
   const { containerRef, isInView } = useInViewCanvas(0.15);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const isManualSelection = useRef(false);
+
+  // Scroll-linked flow scrub
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.85", "end 0.25"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isManualSelection.current || prefersReducedMotion || isSimpleView) return;
+    const nextStep = Math.min(Math.floor(latest * steps.length), steps.length - 1);
+    if (nextStep >= 0 && nextStep !== currentStepIndex) {
+      setCurrentStepIndex(nextStep);
+    }
+  });
+
+  const handleStepSelect = (idx: number) => {
+    isManualSelection.current = true;
+    setCurrentStepIndex(idx);
+    setTimeout(() => {
+      isManualSelection.current = false;
+    }, 4000);
+  };
+
+  const handleNext = () => {
+    isManualSelection.current = true;
+    setCurrentStepIndex((prev) => (prev + 1) % steps.length);
+    setTimeout(() => {
+      isManualSelection.current = false;
+    }, 4000);
+  };
+
+  const handlePrev = () => {
+    isManualSelection.current = true;
+    setCurrentStepIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
+    setTimeout(() => {
+      isManualSelection.current = false;
+    }, 4000);
+  };
 
   // If 3D capabilities are gated, seamlessly render 2D version
   if (!canRun3D) {
@@ -177,14 +217,6 @@ export function CartFlow3D() {
   }
 
   const currentStep = steps[currentStepIndex];
-
-  const handleNext = () => {
-    setCurrentStepIndex((prev) => (prev + 1) % steps.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentStepIndex((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
-  };
 
   return (
     <div
@@ -240,7 +272,7 @@ export function CartFlow3D() {
             <button
               key={step.id}
               type="button"
-              onClick={() => setCurrentStepIndex(idx)}
+              onClick={() => handleStepSelect(idx)}
               className={cn(
                 "text-xs px-2.5 py-1.5 rounded-sm border font-mono transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
                 idx === currentStepIndex

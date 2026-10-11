@@ -1,10 +1,33 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { journeyMilestones } from "@/data/journey";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 
 export function Journey() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { prefersReducedMotion } = useAtlasCapabilities();
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 0.8", "end 0.3"],
+  });
+
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   return (
-    <section id="journey" className="py-20 sm:py-24 border-t border-border/60 bg-surface/20" aria-label="Journey">
+    <section
+      id="journey"
+      ref={containerRef}
+      className="py-20 sm:py-24 border-t border-border/60 bg-surface/20"
+      aria-label="Journey"
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeading
           tagline="Background & trajectory"
@@ -13,7 +36,18 @@ export function Journey() {
         />
 
         {journeyMilestones.length > 0 ? (
-          <div className="relative border-l border-border/80 ml-3 sm:ml-4 pl-6 sm:pl-8 space-y-10">
+          <div className="relative ml-3 sm:ml-4 pl-6 sm:pl-8 space-y-10">
+            {/* Background static line */}
+            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-border/80" />
+
+            {/* Scroll-driven drawing line */}
+            {!prefersReducedMotion && (
+              <motion.div
+                style={{ scaleY, transformOrigin: "top" }}
+                className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent"
+              />
+            )}
+
             {journeyMilestones.map((item) => (
               <div key={item.id} className="relative space-y-2">
                 <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3 h-3 rounded-full border-2 border-bg bg-accent" />

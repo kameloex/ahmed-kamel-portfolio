@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import dynamic from "next/dynamic";
+import { motion, useScroll, useTransform } from "motion/react";
 import { siteConfig } from "@/data/site";
 import { ActionLink } from "@/components/ui/ActionLink";
 import { AtlasFallback } from "@/components/atlas/AtlasFallback";
+import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
 
 const AtlasExperience = dynamic(
   () => import("@/components/atlas/AtlasExperience"),
@@ -15,8 +17,24 @@ const AtlasExperience = dynamic(
 );
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { prefersReducedMotion, isSimpleView } = useAtlasCapabilities();
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const shouldAnimate = !prefersReducedMotion && !isSimpleView;
+
+  // Scroll transforms for smooth depth hand-off from Hero to Stations
+  const yOffset = useTransform(scrollYProgress, [0, 1], [0, 48]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.5]);
+
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative min-h-[calc(100svh-4rem)] flex items-center justify-center py-12 lg:py-16 overflow-hidden border-b border-border/60"
       aria-label="Introduction"
@@ -53,11 +71,18 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Visual Core (Canvas reserved space) */}
+        {/* Right Column: Visual Core with scroll-driven depth */}
         <div className="lg:col-span-6 flex items-center justify-center">
-          <div className="w-full aspect-square max-w-[480px] lg:max-w-[540px] flex items-center justify-center">
+          <motion.div
+            style={{
+              y: shouldAnimate ? yOffset : 0,
+              scale: shouldAnimate ? scale : 1,
+              opacity: shouldAnimate ? opacity : 1,
+            }}
+            className="w-full aspect-square max-w-[480px] lg:max-w-[540px] flex items-center justify-center"
+          >
             <AtlasExperience />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

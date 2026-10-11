@@ -109,6 +109,18 @@ export function SystemCore() {
       corePanelsRef.current.rotation.z -= delta * 0.02;
     }
 
+    // Scroll-linked depth motion: as user scrolls down, core subtly recedes in depth
+    if (typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const scrollY = window.scrollY;
+      const targetScrollZ = -Math.min(scrollY * 0.0025, 1.8);
+      groupRef.current.position.z = THREE.MathUtils.damp(
+        groupRef.current.position.z,
+        targetScrollZ,
+        3,
+        delta
+      );
+    }
+
     // Responsive camera/pointer tilt on desktop
     if (!isTouchDevice) {
       const targetRotX = pointerPos.current.y * 0.18;
