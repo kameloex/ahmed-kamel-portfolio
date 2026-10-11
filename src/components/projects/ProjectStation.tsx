@@ -1,9 +1,11 @@
+"use client";
+
 import React from "react";
 import type { Project } from "@/data/projects";
 import { ActionLink } from "@/components/ui/ActionLink";
-import { PortalLayers } from "./stations/PortalLayers";
-import { CartFlow } from "./stations/CartFlow";
-import { HubConstellation } from "./stations/HubConstellation";
+import { PortalLayers3D } from "./stations/PortalLayers3D";
+import { CartFlow3D } from "./stations/CartFlow3D";
+import { HubConstellation3D } from "./stations/HubConstellation3D";
 import { cn } from "@/lib/utils";
 
 interface ProjectStationProps {
@@ -15,11 +17,11 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
   const renderStationVisual = () => {
     switch (project.stationType) {
       case "portal":
-        return <PortalLayers />;
+        return <PortalLayers3D />;
       case "cart":
-        return <CartFlow />;
+        return <CartFlow3D />;
       case "hub":
-        return <HubConstellation />;
+        return <HubConstellation3D />;
       default:
         return null;
     }
@@ -126,7 +128,7 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
           </div>
         </div>
 
-        {/* Station Visual (2D + fallback interactive art) */}
+        {/* Station Visual (3D with full 2D fallback) */}
         <div
           className={cn(
             "w-full",

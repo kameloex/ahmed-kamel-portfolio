@@ -1,7 +1,18 @@
+"use client";
+
 import React from "react";
+import dynamic from "next/dynamic";
 import { siteConfig } from "@/data/site";
 import { ActionLink } from "@/components/ui/ActionLink";
 import { AtlasFallback } from "@/components/atlas/AtlasFallback";
+
+const AtlasExperience = dynamic(
+  () => import("@/components/atlas/AtlasExperience"),
+  {
+    ssr: false,
+    loading: () => <AtlasFallback />,
+  }
+);
 
 export function Hero() {
   return (
@@ -45,8 +56,7 @@ export function Hero() {
         {/* Right Column: Visual Core (Canvas reserved space) */}
         <div className="lg:col-span-6 flex items-center justify-center">
           <div className="w-full aspect-square max-w-[480px] lg:max-w-[540px] flex items-center justify-center">
-            {/* Phase 2 & 3 baseline uses the server-renderable SVG core fallback */}
-            <AtlasFallback />
+            <AtlasExperience />
           </div>
         </div>
       </div>
