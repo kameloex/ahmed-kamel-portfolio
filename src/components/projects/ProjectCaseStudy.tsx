@@ -7,6 +7,7 @@ import type { Project } from "@/data/projects";
 import { ActionLink } from "@/components/ui/ActionLink";
 import { SimulatedBadge } from "@/components/ui/SimulatedBadge";
 import { useAtlasCapabilities } from "@/components/atlas/useAtlasCapabilities";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 
 interface ProjectCaseStudyProps {
@@ -130,14 +131,25 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.media.map((item, idx) => (
-              <div
+              <figure
                 key={idx}
-                className="rounded border border-border bg-surface overflow-hidden"
+                className="group rounded border border-border bg-surface overflow-hidden p-2 space-y-2"
               >
-                {/* Genuine media rendering */}
-              </div>
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm bg-bg">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                </div>
+                <figcaption className="text-xs font-mono text-ink-subtle px-1 py-1 leading-normal">
+                  {item.alt}
+                </figcaption>
+              </figure>
             ))}
           </div>
         )}

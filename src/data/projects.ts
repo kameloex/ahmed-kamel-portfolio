@@ -86,7 +86,38 @@ export const projects: Project[] = [
       url: "https://kameloex.github.io/BATU/",
     },
     stationType: "portal",
-    media: [], // Real screenshots pending user confirmation
+    media: [
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133359.png",
+        alt: "BATU University Portal primary landing page and header navigation",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133409.png",
+        alt: "Faculties overview and academic department curriculum pages",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133430.png",
+        alt: "Searchable faculty and staff directory interface",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133447.png",
+        alt: "Filterable student graduation project showcase gallery",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133502.png",
+        alt: "Children's University program registration for age groups 7–10 and 11–15",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-university-portal/Screenshot 2025-09-07 133545.png",
+        alt: "Simulated fee payment interface with card input and client-side Luhn validation",
+        kind: "screenshot",
+      },
+    ],
   },
   {
     slug: "payngo-smart-cart-interface",
@@ -133,7 +164,38 @@ export const projects: Project[] = [
     status: "unpublished", // Unpublished: no demo button, no repo link, no placeholder CTA
     demoNote: "Demo tip: Sign up with any account to explore the demo.",
     stationType: "cart",
-    media: [], // Real screenshots pending user confirmation
+    media: [
+      {
+        src: "/images/projects/payngo/the main photo will appear in ui.jpg",
+        alt: "PAYNGO Smart Cart touchscreen dashboard and product grid",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/payngo/Screenshot 2026-08-03 124313.png",
+        alt: "Product catalog browsing with category filtering",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/payngo/Screenshot 2026-08-03 124410.png",
+        alt: "Barcode scanning simulation and cart item register",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/payngo/Screenshot 2026-08-03 124502.png",
+        alt: "Simulated checkout and wallet balance deduction screen",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/payngo/Screenshot 2026-08-03 124607.png",
+        alt: "Transaction confirmation and loyalty rewards update",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/payngo/Screenshot 2026-08-03 125012.png",
+        alt: "Admin dashboard product and inventory management",
+        kind: "screenshot",
+      },
+    ],
   },
   {
     slug: "batu-projects-hub",
@@ -180,7 +242,33 @@ export const projects: Project[] = [
       url: "https://kameloex.github.io/Batu-projects/",
     },
     stationType: "hub",
-    media: [], // Real screenshots pending user confirmation
+    media: [
+      {
+        src: "/images/projects/batu-projects-hub/Screenshot 2025-09-07 101402.png",
+        alt: "BATU Projects Hub homepage and department embedded systems gallery",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-projects-hub/Screenshot 2025-09-07 101415.png",
+        alt: "Team-leader project submission workflow and asset upload fields",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-projects-hub/Screenshot 2025-09-07 101457.png",
+        alt: "Technical knowledge section with Arduino, ESP32, and Raspberry Pi guides",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-projects-hub/Screenshot 2025-09-07 101536.png",
+        alt: "Department exhibition overview and event visitor registration modal",
+        kind: "screenshot",
+      },
+      {
+        src: "/images/projects/batu-projects-hub/Screenshot 2025-09-07 101600.png",
+        alt: "Project book, presentation, and team member credential guidelines",
+        kind: "screenshot",
+      },
+    ],
   },
 ];
 
