@@ -57,7 +57,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 sm:py-28 border-t border-border bg-white"
+      className="py-20 sm:py-28 border-t border-border/80 bg-bg"
       aria-label="Contact"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
@@ -69,9 +69,9 @@ export function Contact() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           {/* Left card: Context & Status */}
-          <div className="p-6 sm:p-8 rounded border border-border-strong bg-surface space-y-6 shadow-specimen">
+          <div className="p-6 sm:p-8 rounded-xl border border-border bg-surface framer-card space-y-6">
             <div>
-              <span className="text-xs font-mono text-accent-deep uppercase tracking-wider font-semibold">
+              <span className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
                 DISPATCH // TERMINAL
               </span>
               <h3 className="font-display text-xl font-semibold text-ink mt-1">
@@ -83,7 +83,7 @@ export function Contact() {
               Available for technical inquiries, front-end system architecture, .NET and web applications, and interactive digital experiences.
             </p>
 
-            <div className="pt-4 border-t border-border space-y-2 text-xs font-mono text-ink-subtle">
+            <div className="pt-4 border-t border-border/60 space-y-2 text-xs font-mono text-ink-subtle">
               <div className="flex items-center justify-between">
                 <span>Location:</span>
                 <span className="text-ink font-medium">Alexandria, Egypt (UTC+2)</span>
@@ -100,9 +100,9 @@ export function Contact() {
           </div>
 
           {/* Right card: Verified Channels */}
-          <div className="p-6 sm:p-8 rounded border border-border-strong bg-surface space-y-6 shadow-specimen">
+          <div className="p-6 sm:p-8 rounded-xl border border-border bg-surface framer-card space-y-6">
             <div>
-              <span className="text-xs font-mono text-accent-deep uppercase tracking-wider font-semibold">
+              <span className="text-xs font-mono text-accent uppercase tracking-wider font-semibold">
                 VERIFIED CHANNELS
               </span>
               <h3 className="font-display text-xl font-semibold text-ink mt-1">
@@ -115,24 +115,24 @@ export function Contact() {
               <div className="flex items-center gap-2">
                 <a
                   href={`mailto:${siteConfig.links.email}`}
-                  className="flex-1 flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+                  className="flex-1 flex items-center justify-between p-3.5 rounded-lg border border-border bg-surface-alt hover:border-accent hover:text-accent text-sm text-ink transition-all font-mono group"
                 >
                   <div className="flex items-center gap-3">
-                    <Mail size={18} className="text-accent-deep" />
+                    <Mail size={18} className="text-accent" />
                     <span>{siteConfig.links.email}</span>
                   </div>
-                  <ArrowUpRight size={16} className="text-ink-subtle" />
+                  <ArrowUpRight size={16} className="text-ink-subtle group-hover:text-accent transition-colors" />
                 </a>
 
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="p-3.5 rounded border border-border-strong bg-white hover:bg-surface text-ink transition-colors"
+                  className="p-3.5 rounded-lg border border-border bg-surface-alt hover:border-accent hover:text-accent text-ink-muted transition-all active:scale-[0.98]"
                   title="Copy email to clipboard"
                   aria-label="Copy email"
                 >
                   {copied ? (
-                    <Check size={18} className="text-ink" />
+                    <Check size={18} className="text-accent" />
                   ) : (
                     <Copy size={18} className="text-ink-muted" />
                   )}
@@ -144,13 +144,13 @@ export function Contact() {
                 href={siteConfig.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+                className="flex items-center justify-between p-3.5 rounded-lg border border-border bg-surface-alt hover:border-accent hover:text-accent text-sm text-ink transition-all font-mono group"
               >
                 <div className="flex items-center gap-3">
-                  <GithubIcon className="w-[18px] h-[18px] text-accent-deep" />
+                  <GithubIcon className="w-[18px] h-[18px] text-accent" />
                   <span>github.com/kameloex</span>
                 </div>
-                <ArrowUpRight size={16} className="text-ink-subtle" />
+                <ArrowUpRight size={16} className="text-ink-subtle group-hover:text-accent transition-colors" />
               </a>
 
               {/* LinkedIn */}
@@ -158,13 +158,13 @@ export function Contact() {
                 href={siteConfig.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3.5 rounded border border-border-strong bg-white hover:border-ink text-sm text-ink transition-colors font-mono"
+                className="flex items-center justify-between p-3.5 rounded-lg border border-border bg-surface-alt hover:border-accent hover:text-accent text-sm text-ink transition-all font-mono group"
               >
                 <div className="flex items-center gap-3">
-                  <LinkedinIcon className="w-[18px] h-[18px] text-accent-deep" />
+                  <LinkedinIcon className="w-[18px] h-[18px] text-accent" />
                   <span>linkedin.com/in/ahmed-kamel</span>
                 </div>
-                <ArrowUpRight size={16} className="text-ink-subtle" />
+                <ArrowUpRight size={16} className="text-ink-subtle group-hover:text-accent transition-colors" />
               </a>
 
               {/* Optional CV Download if supplied */}

@@ -17,8 +17,8 @@ export function SectionHeading({
   return (
     <div className={cn("space-y-3 max-w-2xl", className)}>
       {tagline && (
-        <p className="text-xs font-mono font-semibold tracking-wider text-accent-deep uppercase inline-flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
+        <p className="text-xs font-mono font-medium tracking-wider text-accent uppercase inline-flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#77CFFF]" />
           {tagline}
         </p>
       )}
@@ -26,7 +26,7 @@ export function SectionHeading({
         {title}
       </h2>
       {description && (
-        <p className="text-base sm:text-lg text-ink-muted leading-relaxed">
+        <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-body">
           {description}
         </p>
       )}

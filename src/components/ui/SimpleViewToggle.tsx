@@ -16,10 +16,10 @@ export function SimpleViewToggle({ className }: SimpleViewToggleProps) {
       type="button"
       onClick={toggleSimpleView}
       className={cn(
-        "inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+        "inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
         isSimpleView
           ? "border-accent text-accent bg-accent-tint12"
-          : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/40",
+          : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/60",
         className
       )}
       aria-pressed={isSimpleView}
@@ -32,7 +32,7 @@ export function SimpleViewToggle({ className }: SimpleViewToggleProps) {
       <span
         className={cn(
           "w-1.5 h-1.5 rounded-full transition-colors",
-          isSimpleView ? "bg-accent" : "bg-ink-subtle"
+          isSimpleView ? "bg-accent shadow-[0_0_8px_#77CFFF]" : "bg-ink-subtle"
         )}
       />
       <span>{isSimpleView ? "Simple view on" : "Switch to simple view"}</span>

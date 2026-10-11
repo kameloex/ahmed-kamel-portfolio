@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Skills() {
   return (
-    <section id="toolkit" className="py-20 sm:py-28 border-t border-border bg-white" aria-label="Technical toolkit">
+    <section id="toolkit" className="py-20 sm:py-28 border-t border-border/80 bg-bg" aria-label="Technical toolkit">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeading
           tagline="Technical Index"
@@ -15,7 +15,7 @@ export function Skills() {
         {/* Confirmed tools used in projects */}
         <div className="space-y-6">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent-mid" />
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#77CFFF]" />
             <h3 className="font-mono text-xs text-ink uppercase tracking-wider font-semibold">
               Verified in completed projects
             </h3>
@@ -25,7 +25,7 @@ export function Skills() {
             {toolkitData.usedInProjects.map((group) => (
               <div
                 key={group.categoryName}
-                className="p-6 rounded border border-border-strong bg-surface space-y-4 shadow-specimen"
+                className="p-6 rounded-xl border border-border bg-surface framer-card space-y-4"
               >
                 <div>
                   <h4 className="font-display text-base font-semibold text-ink">
@@ -36,7 +36,7 @@ export function Skills() {
                   </p>
                 </div>
 
-                <ul className="space-y-2 pt-2 border-t border-border">
+                <ul className="space-y-2 pt-2 border-t border-border/60">
                   {group.skills.map((skill) => (
                     <li
                       key={skill.name}
@@ -58,7 +58,7 @@ export function Skills() {
 
         {/* Currently learning section (gracefully handles empty list until Ahmed supplies) */}
         {toolkitData.currentlyLearning.length > 0 ? (
-          <div className="space-y-6 pt-6 border-t border-border">
+          <div className="space-y-6 pt-6 border-t border-border/60">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-ink-subtle" />
               <h3 className="font-mono text-xs text-ink-subtle uppercase tracking-wider font-semibold">
@@ -69,7 +69,7 @@ export function Skills() {
               {toolkitData.currentlyLearning.map((group) => (
                 <div
                   key={group.categoryName}
-                  className="p-6 rounded border border-border bg-surface/60 space-y-4"
+                  className="p-6 rounded-xl border border-border bg-surface/60 space-y-4"
                 >
                   <h4 className="font-display text-base font-semibold text-ink">
                     {group.categoryName}

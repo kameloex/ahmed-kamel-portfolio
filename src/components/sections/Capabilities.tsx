@@ -40,7 +40,7 @@ export function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="py-20 sm:py-28 border-t border-border bg-surface"
+      className="py-20 sm:py-28 border-t border-border/80 bg-surface/30"
       aria-label="Capabilities"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
@@ -54,14 +54,14 @@ export function Capabilities() {
           {capabilities.map((cap) => (
             <div
               key={cap.title}
-              className="p-6 sm:p-8 rounded border border-border-strong bg-white shadow-specimen flex flex-col justify-between space-y-6"
+              className="p-6 sm:p-8 rounded-xl border border-border bg-surface framer-card flex flex-col justify-between space-y-6"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-accent-deep font-semibold tracking-wider">
+                  <span className="text-accent font-semibold tracking-wider">
                     {cap.specimenRef}
                   </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-ink">
                   {cap.title}
@@ -74,7 +74,7 @@ export function Capabilities() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-border text-xs font-mono text-ink-subtle">
+              <div className="pt-4 border-t border-border/60 text-xs font-mono text-ink-subtle">
                 {cap.groundedIn}
               </div>
             </div>

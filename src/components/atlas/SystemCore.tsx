@@ -107,8 +107,8 @@ export function SystemCore() {
 
     // Pointer response on desktop, steady idle on touch
     if (!isTouchDevice) {
-      const targetRotX = pointerPos.current.y * 0.28;
-      const targetRotY = pointerPos.current.x * 0.35;
+      const targetRotX = pointerPos.current.y * 0.32;
+      const targetRotY = pointerPos.current.x * 0.40;
       groupRef.current.rotation.x = THREE.MathUtils.damp(
         groupRef.current.rotation.x,
         targetRotX,
@@ -123,8 +123,8 @@ export function SystemCore() {
       );
     } else {
       // Gentle kinetic idle on touch devices
-      groupRef.current.rotation.x = Math.sin(t * 0.5) * 0.08;
-      groupRef.current.rotation.y = Math.cos(t * 0.4) * 0.10;
+      groupRef.current.rotation.x = Math.sin(t * 0.5) * 0.10;
+      groupRef.current.rotation.y = Math.cos(t * 0.4) * 0.12;
     }
 
     // Secondary kinetic movements
@@ -138,79 +138,64 @@ export function SystemCore() {
 
   return (
     <group ref={groupRef}>
-      {/* Studio Lighting on White Ground */}
-      <ambientLight intensity={1.4} />
-      <directionalLight position={[4, 6, 5]} intensity={1.8} />
-      <directionalLight position={[-4, -2, -3]} intensity={0.6} color="#EBF7FF" />
+      {/* Studio Lighting */}
+      <ambientLight intensity={1.0} />
+      <directionalLight position={[4, 6, 5]} intensity={1.8} color="#F5F7FA" />
+      <directionalLight position={[-4, -2, -3]} intensity={0.8} color="#77CFFF" />
 
-      {/* Soft Contact Drop Shadow Plane Underneath */}
-      <mesh position={[0, -2.8, -0.5]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[6, 6]} />
-        <meshBasicMaterial
-          color="#080B10"
-          transparent
-          opacity={0.06}
-          depthWrite={false}
-        />
-      </mesh>
-
-      {/* Kinetic Precision Rings (Black wireframe & Light Blue accents) */}
+      {/* Kinetic Precision Rings (White line & Light Blue accents) */}
       <group ref={ringsGroupRef}>
-        {/* Outer Ring - Black wireframe line */}
+        {/* Outer Ring */}
         <lineLoop geometry={outerRingGeo}>
-          <lineBasicMaterial color="#080B10" transparent opacity={0.35} />
+          <lineBasicMaterial color="#F5F7FA" transparent opacity={0.16} />
         </lineLoop>
 
-        {/* Dial Ticks - Black line segments */}
+        {/* Dial Ticks */}
         <lineSegments geometry={ticksGeo}>
-          <lineBasicMaterial color="#080B10" transparent opacity={0.4} />
+          <lineBasicMaterial color="#F5F7FA" transparent opacity={0.25} />
         </lineSegments>
 
-        {/* Middle Ring - Translucent Light Blue accent line */}
+        {/* Middle Ring - Glowing Light Blue accent line */}
         <lineLoop geometry={midRingGeo}>
           <lineBasicMaterial color="#77CFFF" transparent opacity={0.85} linewidth={2} />
         </lineLoop>
 
-        {/* Inner Ring - Black wireframe line */}
+        {/* Inner Ring */}
         <lineLoop geometry={innerRingGeo}>
-          <lineBasicMaterial color="#080B10" transparent opacity={0.25} />
+          <lineBasicMaterial color="#77CFFF" transparent opacity={0.4} />
         </lineLoop>
       </group>
 
       {/* Central Kinetic Blueprint Plates */}
       <group ref={corePanelsRef}>
-        {/* Base Layer: Translucent Blueprint Blue Slab */}
+        {/* Base Layer: Deep blue translucent slab */}
         <mesh position={[0, 0, -0.15]} rotation={[0, 0, 0.25]}>
           <boxGeometry args={[1.3, 1.3, 0.04]} />
-          <meshPhysicalMaterial
-            color="#77CFFF"
+          <meshBasicMaterial
+            color="#15384B"
             transparent
-            opacity={0.3}
-            roughness={0.1}
-            transmission={0.4}
-            metalness={0.05}
+            opacity={0.5}
           />
         </mesh>
 
-        {/* Mid Layer: Matte White Slab with Crisp Black Edges */}
+        {/* Mid Layer: Dark lifted surface with white edges */}
         <mesh position={[0, 0, 0]} rotation={[0, 0, -0.15]} geometry={panelBoxGeo}>
-          <meshStandardMaterial color="#FFFFFF" roughness={0.25} metalness={0.05} />
+          <meshBasicMaterial color="#111720" transparent opacity={0.85} />
         </mesh>
         <lineSegments
           geometry={panelEdgesGeo}
           position={[0, 0, 0]}
           rotation={[0, 0, -0.15]}
         >
-          <lineBasicMaterial color="#080B10" transparent opacity={0.8} />
+          <lineBasicMaterial color="#F5F7FA" transparent opacity={0.35} />
         </lineSegments>
 
-        {/* Top Layer: Precision Translucent Blueprint Disc */}
+        {/* Top Layer: Precision Disc with glowing accent line */}
         <mesh position={[0, 0, 0.12]} rotation={[Math.PI / 2, 0, 0]} geometry={discGeo}>
-          <meshPhysicalMaterial
-            color="#77CFFF"
+          <meshBasicMaterial
+            color="#080B10"
             transparent
-            opacity={0.45}
-            roughness={0.2}
+            opacity={0.9}
           />
         </mesh>
         <lineSegments
@@ -218,17 +203,17 @@ export function SystemCore() {
           position={[0, 0, 0.12]}
           rotation={[Math.PI / 2, 0, 0]}
         >
-          <lineBasicMaterial color="#0E476B" transparent opacity={0.7} />
+          <lineBasicMaterial color="#77CFFF" transparent opacity={0.9} />
         </lineSegments>
 
         {/* Center Optical Core Spheres */}
         <mesh position={[0, 0, 0.2]}>
-          <sphereGeometry args={[0.22, 24, 24]} />
-          <meshStandardMaterial color="#FFFFFF" roughness={0.1} metalness={0.2} />
+          <sphereGeometry args={[0.2, 24, 24]} />
+          <meshBasicMaterial color="#77CFFF" transparent opacity={0.4} />
         </mesh>
         <mesh position={[0, 0, 0.22]}>
-          <sphereGeometry args={[0.08, 16, 16]} />
-          <meshBasicMaterial color="#080B10" />
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color="#F5F7FA" />
         </mesh>
       </group>
 
@@ -236,9 +221,9 @@ export function SystemCore() {
       {stationNodes.lines.map((geo, i) => (
         <lineSegments key={i} geometry={geo}>
           <lineDashedMaterial
-            color="#080B10"
+            color="#77CFFF"
             transparent
-            opacity={0.3}
+            opacity={0.4}
             dashSize={0.12}
             gapSize={0.08}
           />
@@ -248,25 +233,20 @@ export function SystemCore() {
       {/* 3 Specimen Satellite Nodes */}
       {stationNodes.nodes.map((node) => (
         <group key={node.id} position={node.pos}>
-          {/* Node Base Shadow disc */}
-          <mesh position={[0, 0, -0.05]}>
-            <circleGeometry args={[0.24, 24]} />
-            <meshBasicMaterial color="#080B10" transparent opacity={0.08} />
-          </mesh>
-          {/* Node Solid Matte White Disc */}
+          {/* Node Solid Dark Disc */}
           <mesh position={[0, 0, 0]}>
             <cylinderGeometry args={[0.22, 0.22, 0.04, 24]} />
-            <meshStandardMaterial color="#FFFFFF" roughness={0.3} />
+            <meshBasicMaterial color="#111720" />
           </mesh>
-          {/* Node Black Wireframe Perimeter */}
+          {/* Node White Wireframe Perimeter */}
           <lineSegments
             geometry={new THREE.EdgesGeometry(new THREE.CylinderGeometry(0.22, 0.22, 0.04, 24))}
           >
-            <lineBasicMaterial color="#080B10" transparent opacity={0.6} />
+            <lineBasicMaterial color="#F5F7FA" transparent opacity={0.3} />
           </lineSegments>
-          {/* Active Accent Core */}
+          {/* Active Light Blue Core */}
           <mesh position={[0, 0, 0.03]}>
-            <cylinderGeometry args={[0.09, 0.09, 0.02, 16]} />
+            <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
             <meshBasicMaterial color="#77CFFF" />
           </mesh>
         </group>

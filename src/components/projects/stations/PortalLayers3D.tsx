@@ -90,7 +90,7 @@ function LayerMesh({
 
   return (
     <group ref={meshRef} position={[0, (index - 3) * 0.08, (index - 3) * 0.28]}>
-      {/* Slab Plane on White Ground */}
+      {/* Slab Plane on Dark Background */}
       <mesh
         onClick={(e) => {
           e.stopPropagation();
@@ -99,18 +99,20 @@ function LayerMesh({
       >
         <planeGeometry args={[3.2, 0.6]} />
         <meshBasicMaterial
-          color={isActive ? 0xebf7ff : 0xffffff}
+          color={isActive ? 0x15384b : 0x111720}
+          transparent
+          opacity={isActive ? 0.9 : 0.45}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Edge Wireframe */}
+      {/* Edge Wireframe with Glowing Light Blue when active */}
       <lineSegments>
         <edgesGeometry args={[new THREE.PlaneGeometry(3.2, 0.6)]} />
         <lineBasicMaterial
-          color={isActive ? 0x258ec8 : 0x080b10}
+          color={isActive ? 0x77cfff : 0xf5f7fa}
           transparent
-          opacity={isActive ? 0.95 : 0.25}
+          opacity={isActive ? 1.0 : 0.2}
         />
       </lineSegments>
 
@@ -118,9 +120,9 @@ function LayerMesh({
       <mesh position={[-1.4, 0, 0.02]}>
         <circleGeometry args={[0.04, 16]} />
         <meshBasicMaterial
-          color={isActive ? 0x258ec8 : 0x080b10}
+          color={isActive ? 0x77cfff : 0xf5f7fa}
           transparent
-          opacity={isActive ? 1 : 0.4}
+          opacity={isActive ? 1 : 0.3}
         />
       </mesh>
     </group>
@@ -198,13 +200,13 @@ export function PortalLayers3D() {
   return (
     <div
       ref={containerRef}
-      className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen"
+      className="w-full rounded-xl border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6 framer-card"
     >
       {/* Header & Meta */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border/80">
         <div>
-          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
-            SPECIMEN 01 // ARCHITECTURAL MATRIX
+          <span className="text-xs font-mono text-accent uppercase tracking-wider">
+            STATION A // ARCHITECTURAL MATRIX
           </span>
           <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
             Information Architecture Stack (40+ Pages)
@@ -216,7 +218,7 @@ export function PortalLayers3D() {
       </div>
 
       {/* 3D Canvas Viewport */}
-      <div className="relative h-64 sm:h-72 w-full rounded border border-border bg-surface overflow-hidden bg-blueprint-grid">
+      <div className="relative h-64 sm:h-72 w-full rounded-lg border border-border/60 bg-bg overflow-hidden bg-blueprint-grid">
         {isInView ? (
           <Canvas
             camera={{ position: [0, 0, 4.2], fov: 45 }}
@@ -224,9 +226,9 @@ export function PortalLayers3D() {
             gl={{ antialias: true, alpha: true }}
             className="w-full h-full cursor-grab active:cursor-grabbing"
           >
-            <ambientLight intensity={1.5} />
-            <directionalLight position={[4, 5, 4]} intensity={1.5} />
-            <directionalLight position={[-3, -2, -2]} intensity={0.5} />
+            <ambientLight intensity={1.2} />
+            <directionalLight position={[4, 5, 4]} intensity={1.8} />
+            <directionalLight position={[-3, -2, -2]} intensity={0.6} color="#77CFFF" />
             <Suspense fallback={null}>
               <Scene3D
                 selectedIndex={selectedIndex}
@@ -240,7 +242,7 @@ export function PortalLayers3D() {
           </div>
         )}
 
-        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-white/90 border border-border px-2 py-0.5 rounded pointer-events-none">
+        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-surface/90 border border-border px-2 py-0.5 rounded pointer-events-none">
           Click layer or scrub scroll to inspect
         </div>
       </div>
@@ -257,10 +259,10 @@ export function PortalLayers3D() {
               type="button"
               onClick={() => handleManualSelect(index)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
+                "text-xs px-2.5 py-1.5 rounded border transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent font-mono",
                 index === selectedIndex
-                  ? "border-ink bg-ink text-white font-medium"
-                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
+                  ? "border-accent text-accent bg-accent-tint12 shadow-[0_0_10px_rgba(119,207,255,0.2)]"
+                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
               )}
             >
               {layer.name}
@@ -270,9 +272,9 @@ export function PortalLayers3D() {
       </div>
 
       {/* Active Layer Details Card */}
-      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
+      <div className="p-4 rounded-lg border border-border/80 bg-bg/80 space-y-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-mono font-semibold text-accent-deep uppercase">
+          <span className="text-xs font-mono text-accent font-medium uppercase">
             Active Layer Specification
           </span>
           {activeLayer.isSimulated && <SimulatedBadge />}

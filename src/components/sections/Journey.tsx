@@ -25,7 +25,7 @@ export function Journey() {
     <section
       id="journey"
       ref={containerRef}
-      className="py-20 sm:py-28 border-t border-border bg-surface"
+      className="py-20 sm:py-28 border-t border-border/80 bg-surface/20"
       aria-label="Journey"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
@@ -38,20 +38,20 @@ export function Journey() {
         {journeyMilestones.length > 0 ? (
           <div className="relative ml-3 sm:ml-4 pl-6 sm:pl-8 space-y-10">
             {/* Background static line */}
-            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-border-strong" />
+            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-border/80" />
 
             {/* Scroll-driven drawing line */}
             {!prefersReducedMotion && (
               <motion.div
                 style={{ scaleY, transformOrigin: "top" }}
-                className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent-deep"
+                className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent shadow-[0_0_10px_#77CFFF]"
               />
             )}
 
             {journeyMilestones.map((item) => (
               <div key={item.id} className="relative space-y-2">
-                <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent-deep ring-2 ring-accent-light" />
-                <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider block">
+                <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3 h-3 rounded-full border-2 border-bg bg-accent shadow-[0_0_8px_#77CFFF]" />
+                <span className="text-xs font-mono font-medium text-accent uppercase tracking-wider block">
                   {item.period}
                 </span>
                 <h3 className="font-display text-lg font-semibold text-ink">
@@ -67,8 +67,8 @@ export function Journey() {
             ))}
           </div>
         ) : (
-          <div className="rounded border border-border-strong bg-white p-8 sm:p-12 text-center space-y-4 max-w-2xl mx-auto shadow-sm">
-            <div className="w-10 h-10 mx-auto rounded-full border border-border-strong flex items-center justify-center text-ink font-mono text-xs font-semibold">
+          <div className="rounded-xl border border-border bg-surface p-8 sm:p-12 text-center space-y-4 max-w-2xl mx-auto framer-card">
+            <div className="w-10 h-10 mx-auto rounded-full border border-border flex items-center justify-center text-accent font-mono text-xs font-semibold">
               AK
             </div>
             <h3 className="font-display text-base font-semibold text-ink">

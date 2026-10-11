@@ -95,12 +95,12 @@ export function HubConstellation() {
   const activeNode = nodes[activeNodeIndex];
 
   return (
-    <div className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen">
+    <div className="w-full rounded-xl border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6 framer-card">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border/80">
         <div>
-          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
-            SPECIMEN 03 // EMBEDDED KNOWLEDGE MATRIX
+          <span className="text-xs font-mono text-accent uppercase tracking-wider">
+            STATION C // EMBEDDED KNOWLEDGE MATRIX
           </span>
           <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
             Microcontroller &amp; Exhibition Node Web
@@ -111,8 +111,8 @@ export function HubConstellation() {
         </span>
       </div>
 
-      {/* 2D Constellation Vector Graphic on Blueprint Grid */}
-      <div className="relative h-72 sm:h-80 w-full rounded border border-border bg-surface overflow-hidden flex items-center justify-center p-2 bg-blueprint-grid">
+      {/* 2D Constellation Vector Graphic */}
+      <div className="relative h-72 sm:h-80 w-full rounded-lg border border-border/60 bg-bg overflow-hidden flex items-center justify-center p-2 bg-blueprint-grid">
         <svg
           viewBox="0 0 600 360"
           className="w-full h-full"
@@ -133,8 +133,8 @@ export function HubConstellation() {
                 y1={from.y}
                 x2={to.x}
                 y2={to.y}
-                stroke={isConnected ? "#0E476B" : "rgba(8, 11, 16, 0.16)"}
-                strokeWidth={isConnected ? 2 : 1}
+                stroke={isConnected ? "#77CFFF" : "rgba(245, 247, 250, 0.15)"}
+                strokeWidth={isConnected ? 1.5 : 1}
                 strokeDasharray={isConnected ? "none" : "3 3"}
                 className="transition-colors duration-300"
               />
@@ -152,7 +152,7 @@ export function HubConstellation() {
                 className="cursor-pointer transition-transform duration-200"
                 style={{
                   transformOrigin: `${node.x}px ${node.y}px`,
-                  transform: isActive ? "scale(1.15)" : "scale(1)",
+                  transform: isActive ? "scale(1.2)" : "scale(1)",
                 }}
               >
                 {isActive && (
@@ -160,32 +160,31 @@ export function HubConstellation() {
                     cx={node.x}
                     cy={node.y}
                     r={20}
-                    fill="rgba(119, 207, 255, 0.25)"
-                    stroke="#258EC8"
-                    strokeWidth={1.5}
+                    fill="rgba(119, 207, 255, 0.15)"
+                    stroke="#77CFFF"
+                    strokeWidth={1}
                   />
                 )}
                 <circle
                   cx={node.x}
                   cy={node.y}
                   r={10}
-                  fill={isActive ? "#EBF7FF" : "#FFFFFF"}
-                  stroke={isActive ? "#0E476B" : "#080B10"}
-                  strokeWidth={isActive ? 2 : 1.5}
+                  fill={isActive ? "#111720" : "#080B10"}
+                  stroke={isActive ? "#77CFFF" : "rgba(245, 247, 250, 0.3)"}
+                  strokeWidth={1.5}
                 />
                 <circle
                   cx={node.x}
                   cy={node.y}
                   r={3.5}
-                  fill={isActive ? "#0E476B" : "rgba(8, 11, 16, 0.7)"}
+                  fill={isActive ? "#77CFFF" : "rgba(245, 247, 250, 0.6)"}
                 />
 
                 <text
                   x={node.x}
-                  y={node.y + (node.y > 200 ? 22 : 22)}
-                  fill={isActive ? "#080B10" : "rgba(8, 11, 16, 0.7)"}
+                  y={node.y + 22}
+                  fill={isActive ? "#77CFFF" : "rgba(245, 247, 250, 0.6)"}
                   fontSize={10}
-                  fontWeight={isActive ? "700" : "500"}
                   textAnchor="middle"
                   fontFamily="monospace"
                   className="select-none pointer-events-none"
@@ -210,10 +209,10 @@ export function HubConstellation() {
               type="button"
               onClick={() => setActiveNodeIndex(idx)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
+                "text-xs px-2.5 py-1.5 rounded border transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent font-mono",
                 idx === activeNodeIndex
-                  ? "border-ink bg-ink text-white font-medium"
-                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
+                  ? "border-accent text-accent bg-accent-tint12 shadow-[0_0_10px_rgba(119,207,255,0.2)]"
+                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
               )}
             >
               {node.name}
@@ -223,9 +222,9 @@ export function HubConstellation() {
       </div>
 
       {/* Node Details Card */}
-      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
+      <div className="p-4 rounded-lg border border-border/80 bg-bg/80 space-y-2">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-accent-deep font-semibold">Category: {activeNode.category}</span>
+          <span className="text-accent font-medium">Category: {activeNode.category}</span>
           <span className="text-ink-subtle">Node ID: {activeNode.id}</span>
         </div>
         <h4 className="text-sm font-semibold text-ink">{activeNode.name}</h4>

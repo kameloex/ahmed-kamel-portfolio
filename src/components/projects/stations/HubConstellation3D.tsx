@@ -117,7 +117,7 @@ function ConstellationScene({
 
   return (
     <group ref={groupRef}>
-      <ambientLight intensity={1.5} />
+      <ambientLight intensity={1.2} />
       <directionalLight position={[3, 5, 4]} intensity={1.5} />
 
       {/* 3D Connecting Lines */}
@@ -131,9 +131,9 @@ function ConstellationScene({
             object={new THREE.Line(
               line.geo,
               new THREE.LineBasicMaterial({
-                color: isConnected ? 0x0e476b : 0x080b10,
+                color: isConnected ? 0x77cfff : 0xf5f7fa,
                 transparent: true,
-                opacity: isConnected ? 0.85 : 0.2,
+                opacity: isConnected ? 0.9 : 0.15,
                 linewidth: isConnected ? 2 : 1,
               })
             )}
@@ -167,24 +167,13 @@ function ConstellationScene({
               </mesh>
             )}
 
-            {/* Core Node on White Ground */}
+            {/* Core Node on Dark Ground */}
             <mesh>
               <sphereGeometry args={[isActive ? 0.14 : 0.09, 16, 16]} />
-              <meshStandardMaterial
-                color={isActive ? 0x258ec8 : 0xffffff}
-                roughness={0.2}
+              <meshBasicMaterial
+                color={isActive ? 0x77cfff : 0xf5f7fa}
               />
             </mesh>
-
-            {/* Node Wireframe perimeter */}
-            {!isActive && (
-              <lineSegments>
-                <edgesGeometry
-                  args={[new THREE.SphereGeometry(0.09, 12, 12)]}
-                />
-                <lineBasicMaterial color={0x080b10} transparent opacity={0.6} />
-              </lineSegments>
-            )}
           </group>
         );
       })}
@@ -232,13 +221,13 @@ export function HubConstellation3D() {
   return (
     <div
       ref={containerRef}
-      className="w-full rounded border border-border-strong bg-white p-4 sm:p-6 lg:p-8 space-y-6 shadow-specimen"
+      className="w-full rounded-xl border border-border bg-surface p-4 sm:p-6 lg:p-8 space-y-6 framer-card"
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border/80">
         <div>
-          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider">
-            SPECIMEN 03 // EMBEDDED KNOWLEDGE MATRIX
+          <span className="text-xs font-mono text-accent uppercase tracking-wider">
+            STATION C // EMBEDDED KNOWLEDGE MATRIX
           </span>
           <h3 className="font-display text-lg font-semibold text-ink mt-0.5">
             Microcontroller &amp; Exhibition Node Web
@@ -250,7 +239,7 @@ export function HubConstellation3D() {
       </div>
 
       {/* 3D Canvas */}
-      <div className="relative h-72 sm:h-80 w-full rounded border border-border bg-surface overflow-hidden bg-blueprint-grid">
+      <div className="relative h-72 sm:h-80 w-full rounded-lg border border-border/60 bg-bg overflow-hidden bg-blueprint-grid">
         {isInView ? (
           <Canvas
             camera={{ position: [0, 0, 4.2], fov: 45 }}
@@ -271,7 +260,7 @@ export function HubConstellation3D() {
           </div>
         )}
 
-        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-white/90 border border-border px-2 py-0.5 rounded pointer-events-none">
+        <div className="absolute bottom-2 right-2 text-[10px] font-mono text-ink-subtle bg-surface/90 border border-border px-2 py-0.5 rounded pointer-events-none">
           Click nodes or scrub scroll
         </div>
       </div>
@@ -288,10 +277,10 @@ export function HubConstellation3D() {
               type="button"
               onClick={() => handleManualSelect(idx)}
               className={cn(
-                "text-xs px-2.5 py-1.5 rounded border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-deep font-mono",
+                "text-xs px-2.5 py-1.5 rounded border transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent font-mono",
                 idx === activeNodeIndex
-                  ? "border-ink bg-ink text-white font-medium"
-                  : "border-border text-ink-muted hover:text-ink hover:border-ink/40 bg-white"
+                  ? "border-accent text-accent bg-accent-tint12 shadow-[0_0_10px_rgba(119,207,255,0.2)]"
+                  : "border-border text-ink-muted hover:text-ink hover:border-accent/40 bg-surface/50"
               )}
             >
               {node.name}
@@ -301,9 +290,9 @@ export function HubConstellation3D() {
       </div>
 
       {/* Details Card */}
-      <div className="p-4 rounded border border-border-strong bg-surface space-y-2">
+      <div className="p-4 rounded-lg border border-border/80 bg-bg/80 space-y-2">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-accent-deep font-semibold">Category: {activeNode.category}</span>
+          <span className="text-accent font-medium">Category: {activeNode.category}</span>
           <span className="text-ink-subtle">Node ID: {activeNode.id}</span>
         </div>
         <h4 className="text-sm font-semibold text-ink">{activeNode.name}</h4>

@@ -38,7 +38,7 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
     <motion.article
       layoutId={prefersReducedMotion ? undefined : `station-frame-${project.slug}`}
       id={`station-${project.slug}`}
-      className="py-14 sm:py-20 border-b border-border last:border-b-0"
+      className="py-14 sm:py-20 border-b border-border/80 last:border-b-0"
     >
       <div
         className={cn(
@@ -58,9 +58,9 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
           )}
         >
           <div className="space-y-2">
-            <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
-              {project.specimenNumber || `SPECIMEN // ${project.stationType.toUpperCase()}`}
+            <span className="text-xs font-mono text-accent uppercase tracking-wider inline-flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#77CFFF]" />
+              {project.specimenNumber || `STATION // ${project.stationType.toUpperCase()}`}
             </span>
             <motion.h3
               layoutId={prefersReducedMotion ? undefined : `station-title-${project.slug}`}
@@ -73,7 +73,7 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
             </p>
           </div>
 
-          <p className="text-sm text-ink-muted leading-relaxed">
+          <p className="text-sm text-ink-subtle leading-relaxed">
             {project.cardDescription}
           </p>
 
@@ -86,7 +86,7 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-2.5 py-1 text-xs font-mono rounded border border-border bg-surface text-ink font-medium"
+                  className="px-2.5 py-1 text-xs font-mono rounded border border-border bg-surface text-ink-muted hover:border-accent/40 hover:text-ink transition-colors"
                 >
                   {tech}
                 </span>
@@ -95,8 +95,8 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
           </div>
 
           {/* Honesty note */}
-          <div className="p-3.5 rounded border border-border-strong bg-surface text-xs text-ink-muted space-y-1">
-            <div className="font-mono text-[11px] text-accent-deep font-semibold uppercase">
+          <div className="p-3.5 rounded-lg border border-border/70 bg-surface/50 text-xs text-ink-muted space-y-1">
+            <div className="font-mono text-[11px] text-accent font-medium uppercase">
               Engineering Disclosure
             </div>
             <p className="text-[12px] leading-relaxed">{project.honestyNote}</p>
@@ -125,13 +125,13 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
             )}
 
             {project.status === "unverified" && (
-              <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border rounded bg-surface">
-                Demo pending verification
+              <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border/60 rounded bg-surface/60">
+                Live demo pending verification
               </span>
             )}
 
             {project.status === "unpublished" && (
-              <span className="text-xs font-mono font-medium text-ink px-3 py-2 border border-border-strong rounded bg-surface">
+              <span className="text-xs font-mono font-medium text-accent px-3 py-2 border border-accent/25 rounded bg-accent-tint12">
                 Demo Coming Soon
               </span>
             )}
@@ -147,23 +147,23 @@ export function ProjectStation({ project, reversed = false }: ProjectStationProp
         >
           {renderStationVisual()}
 
-          {/* Architectural Screenshot Preview Strip (First 2 Genuine Captures) */}
+          {/* Architectural Screenshot Preview Strip */}
           {project.media && project.media.length > 0 && (
             <div className="grid grid-cols-2 gap-3 pt-2">
               {project.media.slice(0, 2).map((item, i) => (
                 <div
                   key={i}
-                  className="group relative rounded border border-border overflow-hidden bg-surface aspect-[16/10] shadow-sm"
+                  className="group relative rounded-lg border border-border/80 overflow-hidden bg-surface aspect-[16/10] shadow-sm hover:border-accent/40 transition-all duration-300"
                 >
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 50vw, 30vw"
-                    className="object-cover object-top filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-300"
+                    className="object-cover object-top opacity-85 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-300"
                   />
-                  <div className="absolute inset-0 bg-ink/5 pointer-events-none" />
-                  <div className="absolute bottom-1 left-1 right-1 text-[9px] font-mono text-ink bg-white/90 px-1.5 py-0.5 rounded truncate border border-border/80">
+                  <div className="absolute inset-0 bg-bg/20 pointer-events-none" />
+                  <div className="absolute bottom-1 left-1 right-1 text-[9px] font-mono text-ink-muted bg-surface/90 px-1.5 py-0.5 rounded truncate border border-border/80">
                     Capture 0{i + 1} &middot; Interface Evidence
                   </div>
                 </div>

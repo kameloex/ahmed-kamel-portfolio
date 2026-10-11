@@ -27,19 +27,19 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
       <div>
         <Link
           href="/#work"
-          className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-ink transition-colors font-mono"
+          className="inline-flex items-center gap-2 text-sm font-medium text-ink-muted hover:text-accent transition-colors font-mono"
         >
           <ArrowLeft size={16} />
-          <span>Back to Systems Dossier</span>
+          <span>Back to Selected Systems</span>
         </Link>
       </div>
 
       {/* Hero header */}
-      <header className="space-y-6 border-b border-border pb-10">
+      <header className="space-y-6 border-b border-border/80 pb-10">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs font-mono font-semibold text-accent-deep uppercase tracking-wider inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-mid" />
-            {project.specimenNumber || `SPECIMEN // ${project.stationType.toUpperCase()}`}
+          <span className="text-xs font-mono text-accent uppercase tracking-wider inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#77CFFF]" />
+            {project.specimenNumber || `STATION // ${project.stationType.toUpperCase()}`}
           </span>
           {project.stationType === "cart" && (
             <SimulatedBadge label="Simulated demo logic" />
@@ -66,13 +66,13 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           )}
 
           {project.status === "unverified" && (
-            <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border rounded bg-surface">
+            <span className="text-xs font-mono text-ink-subtle px-3 py-2 border border-border/60 rounded bg-surface/60">
               Live demo link unverified pending test
             </span>
           )}
 
           {project.status === "unpublished" && (
-            <span className="text-xs font-mono font-medium text-ink px-3 py-2 border border-border-strong rounded bg-surface">
+            <span className="text-xs font-mono font-medium text-accent px-3 py-2 border border-accent/25 rounded bg-accent-tint12">
               Demo Coming Soon
             </span>
           )}
@@ -85,7 +85,7 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
 
       {/* Meta Specs Grid */}
       <section
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded border border-border-strong bg-surface shadow-specimen"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 rounded-xl border border-border bg-surface framer-card"
         aria-label="Project specifications"
       >
         <div className="space-y-1">
@@ -118,20 +118,20 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
         </div>
       </section>
 
-      {/* Media / Screenshot section (strictly neutral placeholder when media is empty) */}
+      {/* Media / Screenshot section */}
       <section className="space-y-6">
-        <div className="flex items-center justify-between border-b border-border pb-3">
+        <div className="flex items-center justify-between border-b border-border/80 pb-3">
           <h2 className="font-display text-xl font-semibold text-ink">
             Verified Interface Captures
           </h2>
           <span className="text-xs font-mono text-ink-subtle">
-            {project.media.length} Screen Evidence Records
+            {project.media.length} Evidence Records
           </span>
         </div>
 
         {project.media.length === 0 ? (
-          <div className="w-full rounded border border-dashed border-border bg-surface p-8 sm:p-12 text-center space-y-3">
-            <div className="w-10 h-10 mx-auto rounded-full border border-border-strong flex items-center justify-center text-ink font-mono text-xs font-semibold">
+          <div className="w-full rounded-xl border border-dashed border-border bg-surface/50 p-8 sm:p-12 text-center space-y-3">
+            <div className="w-10 h-10 mx-auto rounded-full border border-border flex items-center justify-center text-accent font-mono text-xs font-semibold">
               AK
             </div>
             <p className="text-sm font-mono text-ink">
@@ -146,15 +146,15 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
             {project.media.map((item, idx) => (
               <figure
                 key={idx}
-                className="group rounded border border-border-strong bg-surface overflow-hidden p-2.5 space-y-2.5 shadow-sm"
+                className="group rounded-xl border border-border bg-surface framer-card overflow-hidden p-2.5 space-y-2.5"
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded bg-white border border-border">
+                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-bg border border-border/60">
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-300"
                   />
                 </div>
                 <figcaption className="text-xs font-mono text-ink-muted px-1 leading-relaxed">
@@ -185,9 +185,9 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           {project.features.map((feature, idx) => (
             <li
               key={idx}
-              className="p-3.5 rounded border border-border bg-white flex items-start gap-3 text-sm text-ink-muted shadow-sm"
+              className="p-3.5 rounded-lg border border-border/80 bg-surface/60 flex items-start gap-3 text-sm text-ink-muted"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-mid mt-2 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0 shadow-[0_0_6px_#77CFFF]" />
               <span>{feature}</span>
             </li>
           ))}
@@ -203,9 +203,9 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
           {project.implementationHighlights.map((highlight, idx) => (
             <li
               key={idx}
-              className="p-4 rounded border border-border-strong bg-white flex items-start gap-3 text-sm text-ink shadow-sm"
+              className="p-4 rounded-lg border border-border bg-surface/80 flex items-start gap-3 text-sm text-ink"
             >
-              <span className="w-1.5 h-1.5 rounded-sm bg-ink mt-2 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-sm bg-accent mt-2 shrink-0 shadow-[0_0_6px_#77CFFF]" />
               <span className="text-ink-muted leading-relaxed">{highlight}</span>
             </li>
           ))}
@@ -213,9 +213,9 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
       </section>
 
       {/* Honesty & Verification Note */}
-      <section className="p-6 rounded border border-border-strong bg-surface space-y-2 shadow-specimen">
+      <section className="p-6 rounded-xl border border-border bg-surface framer-card space-y-2">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-accent-mid" />
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#77CFFF]" />
           <h3 className="text-sm font-semibold text-ink font-mono uppercase tracking-wide">
             Engineering &amp; Simulation Disclosure
           </h3>
@@ -228,12 +228,12 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
       {/* Next project navigation */}
       {nextProject && (
         <nav
-          className="pt-8 border-t border-border flex justify-between items-center"
+          className="pt-8 border-t border-border/80 flex justify-between items-center"
           aria-label="Next case study"
         >
           <Link
             href="/#work"
-            className="text-sm font-medium text-ink-muted hover:text-ink transition-colors font-mono"
+            className="text-sm font-medium text-ink-muted hover:text-accent transition-colors font-mono"
           >
             ← All Systems
           </Link>
@@ -242,9 +242,9 @@ export function ProjectCaseStudy({ project, nextProject }: ProjectCaseStudyProps
             className="group flex flex-col items-end text-right"
           >
             <span className="text-xs font-mono text-ink-subtle">
-              Next Specimen
+              Next Station
             </span>
-            <span className="text-sm font-semibold text-ink group-hover:text-accent-deep transition-colors inline-flex items-center gap-1">
+            <span className="text-sm font-semibold text-ink group-hover:text-accent transition-colors inline-flex items-center gap-1">
               {nextProject.title}
               <ArrowUpRight size={14} />
             </span>

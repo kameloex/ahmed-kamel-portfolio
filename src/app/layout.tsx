@@ -17,9 +17,9 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Kamel — Systems Blueprint Monograph | Software Developer",
+  title: "Ahmed Kamel — Software Developer | Interactive 3D Portfolio",
   description:
-    "Portfolio of Ahmed Kamel: Software developer based in Alexandria, Egypt. Focused on web architecture, interactive applications, and connected systems.",
+    "Portfolio of Ahmed Kamel: Software developer based in Alexandria, Egypt. Focused on web architecture, interactive 3D applications, and connected systems.",
   robots: {
     index: true,
     follow: true,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#080B10",
   width: "device-width",
   initialScale: 1,
 };
@@ -46,7 +46,7 @@ export default function RootLayout({
         {/* Accessible Skip Link */}
         <a
           href="#work"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-ink focus:text-white focus:font-mono focus:text-xs focus:rounded focus:outline-none ring-2 ring-accent-deep"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-bg focus:font-mono focus:text-xs focus:rounded-sm focus:outline-none"
         >
           Skip to work
         </a>
