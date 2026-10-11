@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_5 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_5" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_5');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Modern Framer-style Floating Interactive Spatial Core with Holographic Glass Nodes
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+camera.position.set(0, 0, 15);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+// Ambient & Point Lighting for Framer metallic/glass sheen
+const ambient = new THREE.AmbientLight(0xffffff, 0.85);
+scene.add(ambient);
+
+const lightPrimary = new THREE.PointLight(0x38bdf8, 4, 30);
+lightPrimary.position.set(8, 8, 10);
+scene.add(lightPrimary);
+
+const lightPurple = new THREE.PointLight(0x818cf8, 3.5, 30);
+lightPurple.position.set(-8, -6, 8);
+scene.add(lightPurple);
+
+const lightCyan = new THREE.PointLight(0x06b6d4, 2, 25);
+lightCyan.position.set(0, -10, -5);
+scene.add(lightCyan);
+
+// Main 3D Floating Pivot
+const root = new THREE.Group();
+scene.add(root);
+
+// 1. Framer-style Central Organic Geometric Crystal (Torus & Nested Rings)
+const centralMeshGroup = new THREE.Group();
+root.add(centralMeshGroup);
+
+const torusGeo = new THREE.TorusGeometry(3.2, 0.45, 32, 100);
+const torusMat = new THREE.MeshPhongMaterial({
+  color: 0x0f172a,
+  emissive: 0x0369a1,
+  emissiveIntensity: 0.5,
+  specular: 0x38bdf8,
+  shininess: 100,
+  wireframe: false,
+  transparent: true,
+  opacity: 0.85
+});
+const torus = new THREE.Mesh(torusGeo, torusMat);
+torus.rotation.x = Math.PI / 3;
+centralMeshGroup.add(torus);
+
+// Inner Glowing Floating Sphere / Core
+const coreGeo = new THREE.SphereGeometry(1.6, 32, 32);
+const coreMat = new THREE.MeshPhongMaterial({
+  color: 0x38bdf8,
+  emissive: 0x0284c7,
+  emissiveIntensity: 0.8,
+  specular: 0xffffff,
+  shininess: 120,
+  transparent: true,
+  opacity: 0.95
+});
+const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+centralMeshGroup.add(coreMesh);
+
+// Sleek Outer Orbit Rings
+const orbitMat = new THREE.MeshBasicMaterial({
+  color: 0x38bdf8,
+  transparent: true,
+  opacity: 0.4
+});
+const orbitGeo1 = new THREE.RingGeometry(4.8, 4.84, 64);
+const orbitRing1 = new THREE.Mesh(orbitGeo1, orbitMat);
+orbitRing1.rotation.x = Math.PI / 2.3;
+centralMeshGroup.add(orbitRing1);
+
+const orbitGeo2 = new THREE.RingGeometry(6.2, 6.23, 64);
+const orbitRing2 = new THREE.Mesh(orbitGeo2, new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.35 }));
+orbitRing2.rotation.y = Math.PI / 3;
+orbitRing2.rotation.x = Math.PI / 6;
+centralMeshGroup.add(orbitRing2);
+
+// 2. Interactive Floating Project Satellites (Framer Minimalist Rounded Discs)
+const satellites = [];
+const satData = [
+  { name: 'BATU Portal', dist: 4.8, speed: 0.4, color: 0x38bdf8, angle: 0 },
+  { name: 'Projects Hub', dist: 6.2, speed: 0.28, color: 0x818cf8, angle: 2.1 },
+  { name: 'PAYNGO Smart Cart', dist: 5.4, speed: 0.35, color: 0x34d399, angle: 4.2 }
+];
+
+satData.forEach((d) => {
+  const satGroup = new THREE.Group();
+  
+  // Floating Card/Pill Mesh
+  const discGeo = new THREE.CylinderGeometry(0.55, 0.55, 0.15, 32);
+  const discMat = new THREE.MeshPhongMaterial({
+    color: 0x1e293b,
+    emissive: d.color,
+    emissiveIntensity: 0.7,
+    specular: 0xffffff,
+    shininess: 80
+  });
+  const disc = new THREE.Mesh(discGeo, discMat);
+  disc.rotation.x = Math.PI / 2;
+  satGroup.add(disc);
+
+  // Halo Ring
+  const haloGeo = new THREE.RingGeometry(0.7, 0.78, 32);
+  const haloMat = new THREE.MeshBasicMaterial({ color: d.color, transparent: true, opacity: 0.7, side: THREE.DoubleSide });
+  const halo = new THREE.Mesh(haloGeo, haloMat);
+  satGroup.add(halo);
+
+  root.add(satGroup);
+  satellites.push({ group: satGroup, meta: d, halo });
+});
+
+// 3. Ambient Starfield / Micro-dots
+const pCount = 350;
+const pGeo = new THREE.BufferGeometry();
+const pPos = new Float32Array(pCount * 3);
+for(let i=0; i<pCount*3; i+=3) {
+  pPos[i] = (Math.random() - 0.5) * 24;
+  pPos[i+1] = (Math.random() - 0.5) * 20;
+  pPos[i+2] = (Math.random() - 0.5) * 16;
+}
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const pMat = new THREE.PointsMaterial({
+  color: 0x94a3b8,
+  size: 0.05,
+  transparent: true,
+  opacity: 0.6
+});
+const particleCloud = new THREE.Points(pGeo, pMat);
+root.add(particleCloud);
+
+// Mouse parallax
+let mx = 0, my = 0;
+let tx = 0, ty = 0;
+function onMove(e) {
+  const rect = container.getBoundingClientRect();
+  mx = ((e.clientX - rect.left) / rect.width * 2 - 1);
+  my = -((e.clientY - rect.top) / rect.height * 2 - 1);
+}
+window.addEventListener('mousemove', onMove);
+
+// Animation Loop
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  tx += (mx - tx) * 0.05;
+  ty += (my - ty) * 0.05;
+
+  root.rotation.y = tx * 0.5 + t * 0.08;
+  root.rotation.x = ty * 0.4 + Math.sin(t * 0.25) * 0.04;
+
+  torus.rotation.z = t * 0.3;
+  torus.rotation.y = t * 0.2;
+  coreMesh.rotation.y = -t * 0.4;
+
+  orbitRing1.rotation.z = t * 0.15;
+  orbitRing2.rotation.z = -t * 0.12;
+
+  satellites.forEach(({ group, meta, halo }) => {
+    const a = t * meta.speed + meta.angle;
+    group.position.x = Math.cos(a) * meta.dist;
+    group.position.z = Math.sin(a) * meta.dist;
+    group.position.y = Math.sin(a * 2) * 1.2;
+    group.rotation.y += 0.02;
+    halo.lookAt(camera.position);
+  });
+
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_5 -->
+</body>
+</html>

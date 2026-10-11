@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Strict 3-color palette + allowed opacity tints */
+  --bg: #080B10;
+  --surface: #111720;
+  --ink: #F5F7FA;
+  --ink-muted: rgba(245, 247, 250, 0.60);
+  --ink-subtle: rgba(245, 247, 250, 0.40);
+  --border: rgba(245, 247, 250, 0.12);
+  --accent: #77CFFF;
+  --accent-tint-12: rgba(119, 207, 255, 0.12);
+  --accent-tint-20: rgba(119, 207, 255, 0.20);
+  --accent-tint-25: rgba(119, 207, 255, 0.25);
+  --deep: #15384B;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--ink);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus ring in light blue accent */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Clean selection styles */
+::selection {
+  background-color: var(--accent-tint-25);
+  color: var(--ink);
+}
+
+/* Custom scrollbar matching palette */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 247, 250, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(119, 207, 255, 0.25);
+}
+
+/* Section scroll-margin for smooth header offset */
+section[id] {
+  scroll-margin-top: 80px;
+}
